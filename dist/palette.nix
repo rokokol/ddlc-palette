@@ -12,6 +12,6 @@
   monika = "#D1897E";
   natsuki = "#FFBBC3";
   yuri = "#6C4681";
-  error = "#D6244A";
-  corrupt = "#FF1030";
+  bow = "#CC0C29";
+  bowShadow = "#8C1132";
 }

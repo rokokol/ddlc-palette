@@ -2,7 +2,7 @@
   "meta": {
     "name": "ddlc-palette",
     "source": "https://ddlc.moe/",
-    "note": "Colours measured from the official site: main.css for the interface, images/tilebg.png for the background, the sticker_?.png sprites for the characters. Every hex here is a value the site actually ships, except the two marked invented"
+    "note": "Colours measured from the official site: main.css for the interface, images/tilebg.png for the background, the sticker_?.png sprites for the characters, images/screen5.png for the reds. Every hex here is a value the site actually ships"
   },
   "interface": {
     "paper": {
@@ -68,16 +68,16 @@
       "source": "images/sticker_y.png"
     }
   },
-  "invented": {
-    "error": {
-      "hex": "#D6244A",
-      "where": "error text",
-      "source": "invented — the site has no error state"
+  "accents": {
+    "bow": {
+      "hex": "#CC0C29",
+      "where": "the loud red — glitches, alarms",
+      "source": "images/screen5.png, the flat fill of Sayori's hair bow (sticker_s.png carries the same hex)"
     },
-    "corrupt": {
-      "hex": "#FF1030",
-      "where": "the dots once things go wrong",
-      "source": "invented — the site has no glitch state"
+    "bowShadow": {
+      "hex": "#8C1132",
+      "where": "the quiet red — error text",
+      "source": "images/screen5.png, the shaded fold of the same bow"
     }
   }
 }

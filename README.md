@@ -26,8 +26,9 @@ Not from a screenshot and not from taste — from [ddlc.moe](https://ddlc.moe/) 
 | **interface** | `main.css` — the divider, the button and its hover, the link colour, the dark footer |
 | **dot**, **paper** | `images/tilebg.png`, the site's own background tile: 200×200, dots of radius 40 on a half-step grid, `#FFDBF0` on white |
 | **characters** | the `sticker_?.png` sprites, most frequent hair colour across the top of each head |
+| **accents** | `images/screen5.png`, the two tones of Sayori's bow — the site ships no other strong red |
 
-Only `error` and `corrupt` are invented
+Nothing here is invented
 
 Each entry in `palette.json` carries its own `where` and `source`, so nothing in here is unattributable
 
@@ -58,7 +59,7 @@ Each entry in `palette.json` carries its own `where` and `source`, so nothing in
 ## Re-reading the site
 
 The provenance above is a claim until something reproduces it, so `canonize.sh` does:
-it fetches `main.css`, the tile and the four sprites, measures every colour again and writes
+it fetches `main.css`, the tile, the four sprites and a screenshot, measures every colour again and writes
 `palette.json`. Running it against today's site reproduces every hex in this repository exactly
 
 ```sh

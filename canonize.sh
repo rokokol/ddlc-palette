@@ -34,6 +34,8 @@ fetch() {
 fetch main.css "$work/main.css" text/css
 fetch images/tilebg.png "$work/tilebg.png" image/png
 for c in s m n y; do fetch "images/sticker_$c.png" "$work/sticker_$c.png" image/png; done
+# The stickers are too small to hold the bow's second tone — the screenshot is
+fetch images/screen5.png "$work/screen5.png" image/png
 
 # #abc -> #AABBCC, #abcdef -> #ABCDEF
 expand() {
@@ -60,10 +62,11 @@ css_color() {
   expand "$hex"
 }
 
-# Most frequent colour in a region, ignoring white and the sticker outline
+# Most frequent colour in a region, ignoring white and the sticker outline.
+# Flattening onto white first: the RGB of a transparent pixel is arbitrary junk
 dominant() {
   local file="$1" crop="$2"
-  magick "$file" -crop "$crop" +repage -alpha off txt:- |
+  magick "$file" -background white -alpha remove -alpha off -crop "$crop" +repage txt:- |
     awk -F'#' 'NR>1 {print substr($2,1,6)}' |
     awk '$1 !~ /^(FFFFFF|FFF[0-9A-F]{3})$/' |
     sort | uniq -c | sort -rn | awk 'NR == 1 { print "#" $2 }'
@@ -98,7 +101,45 @@ monika=$(dominant "$work/sticker_m.png" "100%x22%+0+10%")
 natsuki=$(dominant "$work/sticker_n.png" "100%x22%+0+10%")
 yuri=$(dominant "$work/sticker_y.png" "100%x22%+0+10%")
 
-for v in paper blush plum pink ink ash dot sayori monika natsuki yuri; do
+# Sayori's bow, the only strong red the site ships: the flat fill, then the shaded fold
+# looked up inside the fill's own bounding box — so no crop is pinned to this screenshot
+read -r bow bow_shadow < <(magick "$work/screen5.png" -alpha off txt:- | awk '
+  function h2d(s,   i, n) {
+    n = 0
+    for (i = 1; i <= length(s); i++) n = n * 16 + index("0123456789ABCDEF", substr(s, i, 1)) - 1
+    return n
+  }
+  # Ties broken by hex: "for (h in a)" has no order, and a canonizer may not be random
+  function winner(a,   h, best) {
+    for (h in a) if (best == "" || a[h] > a[best] || (a[h] == a[best] && h < best)) best = h
+    return best
+  }
+  NR > 1 {
+    hex = toupper(substr($3, 2, 6))
+    r = h2d(substr(hex, 1, 2)); g = h2d(substr(hex, 3, 2)); b = h2d(substr(hex, 5, 2))
+    split($1, p, ",")
+    x = p[1] + 0; y = p[2] + 0
+    if (r > 120 && g < 110 && b < 120 && r - g > 80) {
+      fill[hex]++
+      if (!(hex in x0) || x < x0[hex]) x0[hex] = x
+      if (!(hex in x1) || x > x1[hex]) x1[hex] = x
+      if (!(hex in y0) || y < y0[hex]) y0[hex] = y
+      if (!(hex in y1) || y > y1[hex]) y1[hex] = y
+    }
+    # The shade is a red as well, only a darker one — the two tests overlap on purpose
+    if (r > 60 && r - g > 60 && r - b > 40 && (r * 299 + g * 587 + b * 114) / 1000 < 70) {
+      n++; dh[n] = hex; dx[n] = x; dy[n] = y
+    }
+  }
+  END {
+    f = winner(fill)
+    for (i = 1; i <= n; i++)
+      if (dh[i] != f && dx[i] >= x0[f] && dx[i] <= x1[f] && dy[i] >= y0[f] && dy[i] <= y1[f]) shade[dh[i]]++
+    print "#" f, "#" winner(shade)
+  }
+')
+
+for v in paper blush plum pink ink ash dot sayori monika natsuki yuri bow bow_shadow; do
   [[ ${!v} =~ ^#[0-9A-F]{6}$ ]] || {
     echo "canonize.sh: $v came out as '${!v}'" >&2
     exit 1
@@ -110,6 +151,7 @@ jq \
   --arg paper "$paper" --arg dot "$dot" --arg blush "$blush" --arg pink "$pink" \
   --arg plum "$plum" --arg ink "$ink" --arg ash "$ash" \
   --arg sayori "$sayori" --arg monika "$monika" --arg natsuki "$natsuki" --arg yuri "$yuri" \
+  --arg bow "$bow" --arg bowShadow "$bow_shadow" \
   --arg tile "${tile_w}x${tile_h}" --arg radius "$radius" '
     .interface.paper.hex = $paper
   | .interface.dot.hex = $dot
@@ -122,6 +164,8 @@ jq \
   | .characters.monika.hex = $monika
   | .characters.natsuki.hex = $natsuki
   | .characters.yuri.hex = $yuri
+  | .accents.bow.hex = $bow
+  | .accents.bowShadow.hex = $bowShadow
   | .interface.dot.source = "images/tilebg.png, \($tile) tile, dots of radius \($radius) on a half-step offset grid"
   ' "$json" >"$work/palette.json"
 

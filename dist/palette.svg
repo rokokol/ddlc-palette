@@ -36,10 +36,10 @@
   <rect x="510" y="176" width="170" height="88" fill="#6C4681"/>
   <text x="524" y="212" fill="#FFFFFF" font-size="17">yuri</text>
   <text x="524" y="238" fill="#FFFFFF" font-size="14" opacity="0.75">#6C4681</text>
-  <rect x="0" y="264" width="170" height="88" fill="#D6244A"/>
-  <text x="14" y="300" fill="#FFFFFF" font-size="17">error</text>
-  <text x="14" y="326" fill="#FFFFFF" font-size="14" opacity="0.75">#D6244A</text>
-  <rect x="170" y="264" width="170" height="88" fill="#FF1030"/>
-  <text x="184" y="300" fill="#FFFFFF" font-size="17">corrupt</text>
-  <text x="184" y="326" fill="#FFFFFF" font-size="14" opacity="0.75">#FF1030</text>
+  <rect x="0" y="264" width="170" height="88" fill="#CC0C29"/>
+  <text x="14" y="300" fill="#FFFFFF" font-size="17">bow</text>
+  <text x="14" y="326" fill="#FFFFFF" font-size="14" opacity="0.75">#CC0C29</text>
+  <rect x="170" y="264" width="170" height="88" fill="#8C1132"/>
+  <text x="184" y="300" fill="#FFFFFF" font-size="17">bowShadow</text>
+  <text x="184" y="326" fill="#FFFFFF" font-size="14" opacity="0.75">#8C1132</text>
 </svg>
