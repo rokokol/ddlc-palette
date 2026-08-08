@@ -105,7 +105,8 @@ for v in paper blush plum pink ink ash dot sayori monika natsuki yuri; do
   }
 done
 
-jq --sort-keys \
+# No --sort-keys: the hand-made order carries meaning, and sorting buries the measured change
+jq \
   --arg paper "$paper" --arg dot "$dot" --arg blush "$blush" --arg pink "$pink" \
   --arg plum "$plum" --arg ink "$ink" --arg ash "$ash" \
   --arg sayori "$sayori" --arg monika "$monika" --arg natsuki "$natsuki" --arg yuri "$yuri" \
@@ -128,5 +129,7 @@ if diff -q "$json" "$work/palette.json" >/dev/null; then
   echo "canonize.sh: palette.json already matches $site"
 else
   cp "$work/palette.json" "$json"
-  echo "canonize.sh: updated palette.json — run ./generate.sh and review the diff"
+  # dist/ is committed, so regenerate here — leaving it to the caller is what let it go stale
+  "$here/generate.sh" >/dev/null
+  echo "canonize.sh: updated palette.json and dist/ — review the diff"
 fi
