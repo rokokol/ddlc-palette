@@ -2,7 +2,7 @@
 
 # Палитра DDLC
 
-**Цвета Doki Doki Literature Club, снятые с официального сайта** ⊂(◉‿◉)つ
+**Цвета Doki Doki Literature Club, снятые с официального сайта** （´ω｀♡%）
 
 ![source](https://img.shields.io/badge/source-ddlc.moe-FF80C0?style=flat)
 ![Nix](https://img.shields.io/badge/Nix-flake-7EBAE4?style=flat&logo=nixos&logoColor=white)
