@@ -1,0 +1,30 @@
+name: check
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  nix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: cachix/install-nix-action@v31
+      - name: dist/ matches palette.json
+        run: nix flake check -L
+      - name: palette evaluates
+        run: nix eval --json .#lib.palette
+      - name: formatting
+        run: nix fmt -- --ci
+
+  shell:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: shellcheck
+        run: shellcheck generate.sh
+      - name: shfmt
+        run: |
+          curl -sSL -o /tmp/shfmt https://github.com/mvdan/sh/releases/download/v3.10.0/shfmt_v3.10.0_linux_amd64
+          chmod +x /tmp/shfmt
+          /tmp/shfmt -i 2 -ci -d generate.sh
