@@ -34,11 +34,23 @@
       };
 
       packages = forAllSystems (pkgs: {
-        default = pkgs.runCommand "ddlc-palette" { } ''
-          mkdir -p $out/share/ddlc-palette
-          cp ${./palette.json} $out/share/ddlc-palette/palette.json
-          cp -r ${./dist}/. $out/share/ddlc-palette/
-        '';
+        default =
+          pkgs.runCommand "ddlc-palette"
+            {
+              meta = {
+                description = "The Doki Doki Literature Club palette, measured off the official site";
+                homepage = "https://github.com/rokokol/ddlc-palette";
+                # MIT covers the generators; the colours themselves are Team Salvato's
+                license = pkgs.lib.licenses.mit;
+                # Plain data files — nothing here is built for a platform
+                platforms = pkgs.lib.platforms.all;
+              };
+            }
+            ''
+              mkdir -p $out/share/ddlc-palette
+              cp ${./palette.json} $out/share/ddlc-palette/palette.json
+              cp -r ${./dist}/. $out/share/ddlc-palette/
+            '';
       });
 
       # dist/ is committed so non-Nix consumers can just read a file; this proves it is current
