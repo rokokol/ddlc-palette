@@ -27,7 +27,7 @@ Not from a screenshot and not from taste — from [ddlc.moe](https://ddlc.moe/) 
 | **dot**, **paper** | `images/tilebg.png`, the site's own background tile: 200×200, dots of radius 40 on a half-step grid, `#FFDBF0` on white |
 | **characters** | the `sticker_?.png` sprites, most frequent hair colour across the top of each head |
 
-Only `error` and `corrupt` are invented — the site has no failure state to copy
+Only `error` and `corrupt` are invented
 
 Each entry in `palette.json` carries its own `where` and `source`, so nothing in here is unattributable
 
@@ -55,9 +55,24 @@ Each entry in `palette.json` carries its own `where` and `source`, so nothing in
 | `dist/palette.env` | `plum=BB5599` — bare hex, for configs that reject `#` |
 | `dist/palette.svg` | the swatch card above |
 
+## Re-reading the site
+
+The provenance above is a claim until something reproduces it, so `canonize.sh` does:
+it fetches `main.css`, the tile and the four sprites, measures every colour again and writes
+`palette.json`. Running it against today's site reproduces every hex in this repository exactly
+
+```sh
+nix develop -c ./canonize.sh   # or: curl, jq, imagemagick, awk on PATH
+./generate.sh
+```
+
+It refuses to guess: the site answers `200` with an HTML page for anything missing, so the script
+checks `content-type` rather than the status code, and it aborts if a CSS rule it reads has lost its
+colour. A monthly workflow runs it and fails if the site has drifted away from what is committed
+
 ## Changing a colour
 
-Edit `palette.json`, then:
+Edit `palette.json` by hand for anything the site does not define, then:
 
 ```sh
 ./generate.sh          # needs jq

@@ -1,83 +1,83 @@
 {
-  "meta": {
-    "name": "ddlc-palette",
-    "source": "https://ddlc.moe/",
-    "note": "Colours measured from the official site: main.css for the interface, images/tilebg.png for the background, the sticker_?.png sprites for the characters. Every hex here is a value the site actually ships, except the two marked invented"
-  },
-  "interface": {
-    "paper": {
-      "hex": "#FFFFFF",
-      "where": "page ground and content cards",
-      "source": "main.css .content background, tilebg.png ground"
-    },
-    "dot": {
-      "hex": "#FFDBF0",
-      "where": "the dots of the background grid",
-      "source": "tilebg.png, 200x200 tile, dots of radius 40 on a half-step offset grid"
-    },
-    "blush": {
-      "hex": "#FFBDE1",
-      "where": "dividers, soft borders",
-      "source": "main.css .banner-divider"
-    },
-    "pink": {
-      "hex": "#DD77BB",
-      "where": "hover, live accents",
-      "source": "main.css .download-button:hover (#d7b)"
-    },
-    "plum": {
-      "hex": "#BB5599",
-      "where": "links, buttons, strong accents",
-      "source": "main.css .download-button (#b59) and .description-container a"
-    },
-    "ink": {
-      "hex": "#222222",
-      "where": "text, dark blocks",
-      "source": "main.css footer background (#222)"
-    },
-    "ash": {
-      "hex": "#DADADA",
-      "where": "neutral separators",
-      "source": "main.css (#dadada)"
-    },
-    "shadow": {
-      "hex": "#0000004D",
-      "where": "drop shadows, 30% black",
-      "source": "main.css box-shadow rgba(0, 0, 0, .3)"
-    }
-  },
   "characters": {
-    "sayori": {
-      "hex": "#F1A796",
-      "where": "Sayori — hair",
-      "source": "images/sticker_s.png"
-    },
     "monika": {
       "hex": "#D1897E",
-      "where": "Monika — hair",
-      "source": "images/sticker_m.png"
+      "source": "images/sticker_m.png",
+      "where": "Monika — hair"
     },
     "natsuki": {
       "hex": "#FFBBC3",
-      "where": "Natsuki — hair",
-      "source": "images/sticker_n.png"
+      "source": "images/sticker_n.png",
+      "where": "Natsuki — hair"
+    },
+    "sayori": {
+      "hex": "#F1A796",
+      "source": "images/sticker_s.png",
+      "where": "Sayori — hair"
     },
     "yuri": {
       "hex": "#6C4681",
-      "where": "Yuri — hair",
-      "source": "images/sticker_y.png"
+      "source": "images/sticker_y.png",
+      "where": "Yuri — hair"
+    }
+  },
+  "interface": {
+    "ash": {
+      "hex": "#DADADA",
+      "source": "main.css (#dadada)",
+      "where": "neutral separators"
+    },
+    "blush": {
+      "hex": "#FFBDE1",
+      "source": "main.css .banner-divider",
+      "where": "dividers, soft borders"
+    },
+    "dot": {
+      "hex": "#FFDBF0",
+      "source": "images/tilebg.png, 200x200 tile, dots of radius 40 on a half-step offset grid",
+      "where": "the dots of the background grid"
+    },
+    "ink": {
+      "hex": "#222222",
+      "source": "main.css footer background (#222)",
+      "where": "text, dark blocks"
+    },
+    "paper": {
+      "hex": "#FFFFFF",
+      "source": "main.css .content background, tilebg.png ground",
+      "where": "page ground and content cards"
+    },
+    "pink": {
+      "hex": "#DD77BB",
+      "source": "main.css .download-button:hover (#d7b)",
+      "where": "hover, live accents"
+    },
+    "plum": {
+      "hex": "#BB5599",
+      "source": "main.css .download-button (#b59) and .description-container a",
+      "where": "links, buttons, strong accents"
+    },
+    "shadow": {
+      "hex": "#0000004D",
+      "source": "main.css box-shadow rgba(0, 0, 0, .3)",
+      "where": "drop shadows, 30% black"
     }
   },
   "invented": {
-    "error": {
-      "hex": "#D6244A",
-      "where": "error text",
-      "source": "invented — the site has no error state"
-    },
     "corrupt": {
       "hex": "#FF1030",
-      "where": "the dots once things go wrong",
-      "source": "invented — the site has no glitch state"
+      "source": "invented — the site has no glitch state",
+      "where": "the dots once things go wrong"
+    },
+    "error": {
+      "hex": "#D6244A",
+      "source": "invented — the site has no error state",
+      "where": "error text"
     }
+  },
+  "meta": {
+    "name": "ddlc-palette",
+    "note": "Colours measured from the official site: main.css for the interface, images/tilebg.png for the background, the sticker_?.png sprites for the characters. Every hex here is a value the site actually ships, except the two marked invented",
+    "source": "https://ddlc.moe/"
   }
 }

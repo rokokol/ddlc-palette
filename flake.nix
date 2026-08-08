@@ -51,6 +51,17 @@
         '';
       });
 
+      devShells = forAllSystems (pkgs: {
+        default = pkgs.mkShell {
+          packages = [
+            pkgs.jq
+            pkgs.curl
+            pkgs.imagemagick
+            pkgs.gawk
+          ];
+        };
+      });
+
       formatter = forAllSystems (pkgs: pkgs.nixfmt-tree);
     };
 }

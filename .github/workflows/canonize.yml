@@ -1,0 +1,19 @@
+name: canonize
+
+# Re-reads ddlc.moe and fails if the palette no longer matches it. Separate from
+# the main check on purpose: this one depends on a third-party site being up
+on:
+  schedule:
+    - cron: "0 6 1 * *"
+  workflow_dispatch:
+
+jobs:
+  site:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: cachix/install-nix-action@v31
+      - name: palette still matches the site
+        run: |
+          nix develop -c ./canonize.sh
+          git diff --exit-code palette.json
