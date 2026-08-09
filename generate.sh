@@ -108,7 +108,7 @@ done
     lum=$(((r * 299 + g * 587 + b * 114) / 1000))
     fg="#111111"
     [[ $lum -lt 140 ]] && fg="#FFFFFF"
-    echo "  <rect x=\"$x\" y=\"$y\" width=\"$sw\" height=\"$sh\" fill=\"${hex:0:7}\"/>"
+    echo "  <rect x=\"$x\" y=\"$y\" width=\"$sw\" height=\"$sh\" fill=\"$hex\"/>"
     echo "  <text x=\"$((x + 14))\" y=\"$((y + 36))\" fill=\"$fg\" font-size=\"17\">$name</text>"
     echo "  <text x=\"$((x + 14))\" y=\"$((y + 62))\" fill=\"$fg\" font-size=\"14\" opacity=\"0.75\">$hex</text>"
     i=$((i + 1))

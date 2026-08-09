@@ -73,8 +73,8 @@
 
         # Provenance is the point of this repository, so an entry without it is a bug, not a
         # style lapse. "method" says how the hex was arrived at: read out of a CSS declaration,
-        # the commonest pixel of a bucket, the mean of one that has no commonest pixel, or —
-        # for shadow alone, whose rgba() is no hex to read — transcribed by hand
+        # the commonest pixel of a bucket, or the mean of one that has no commonest pixel. Three
+        # methods and no fourth — every colour here is one canonize.sh re-reads
         palette-is-annotated =
           pkgs.runCommand "palette-is-annotated" { nativeBuildInputs = [ pkgs.jq ]; }
             ''
@@ -84,9 +84,9 @@
                   | .key as $g | .value | to_entries[] | .key as $k | .value as $v
                   | (["hex", "where", "source", "method"] - ($v | keys)) as $gone
                   | if $gone != [] then "\($g).\($k) is missing \($gone | join(", "))"
-                    elif ($v.hex | test("^#[0-9A-F]{6}([0-9A-F]{2})?$") | not) then
+                    elif ($v.hex | test("^#[0-9A-F]{6}$") | not) then
                       "\($g).\($k) hex is \($v.hex)"
-                    elif (["declared", "mode", "mean", "hand"] | index($v.method) | not) then
+                    elif (["declared", "mode", "mean"] | index($v.method) | not) then
                       "\($g).\($k) method is \($v.method)"
                     else empty end
                 ] | .[]

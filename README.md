@@ -36,9 +36,8 @@ Each entry in `palette.json` carries its own `where`, `source` and `method`, so 
 | `declared` | lifted straight out of a `main.css` declaration, so there is nothing to measure | 6 |
 | `mode` | the commonest pixel of everything the colour's predicate accepts | 13 |
 | `mean` | the average of that bucket, because its top count was tied — today only `monikaEye` | 1 |
-| `hand` | transcribed rather than read: `shadow` alone, whose `rgba(0, 0, 0, .3)` is no hex to fetch | 1 |
 
-A check refuses a palette entry that is missing any of the four fields or claims a method outside that list, so a colour added later cannot arrive unattributed
+Three methods and no fourth: every entry is one `canonize.sh` re-reads, and a check refuses an entry missing any of the four fields or claiming a method outside that list, so a colour added later cannot arrive unattributed
 
 ## Use it
 
@@ -109,7 +108,7 @@ The two variants draw different accents because the palette is polarised: a colo
 
 ## Re-reading the site
 
-The provenance above is a claim until something reproduces it, so `canonize.sh` does: it fetches `main.css`, the tile, the four sprites and two screenshots, measures every colour but `shadow` again and writes `palette.json` and `dist/`, each entry's `method` alongside its hex. Running it against today's site reproduces every hex in this repository exactly
+The provenance above is a claim until something reproduces it, so `canonize.sh` does: it fetches `main.css`, the tile, the four sprites and two screenshots, measures every colour again and writes `palette.json` and `dist/`, each entry's `method` alongside its hex. Running it against today's site reproduces every hex in this repository exactly
 
 ```sh
 nix develop -c ./canonize.sh   # or: curl, jq, imagemagick, awk on PATH
@@ -123,7 +122,7 @@ jacket=$(sprites | pick 'sat < 0.25 && lum > 120 && lum < 200 && r > b')
 
 A thin mode is not a weak one: 27 repeats among 1721 pixels of 1446 shades means the repeats *are* the flat interior and everything else is an antialiased edge. So the mode holds wherever one exists, and `pick` averages only when the top count is tied — today that is Monika's iris and nothing else
 
-It refuses to guess: the site answers `200` with an HTML page for anything missing, so the script checks `content-type` rather than the status code, and it aborts if a CSS rule it reads has lost its colour. A weekly workflow runs it and, only if the site has drifted, commits the re-measured palette and regenerated `dist/` to a branch and opens a pull request titled *canonize: ddlc.moe drifted*, whose body is a table of every colour that moved and where it moved to. A colour never changes without a human looking at the diff
+It refuses to guess: the site answers `200` with an HTML page for anything missing, so the script checks `content-type` rather than the status code, and it aborts if a CSS rule it reads has lost its colour. A weekly workflow runs it and, only if the site has drifted, commits the re-measured palette and regenerated `dist/` to a branch and opens a pull request titled *canonize: ddlc.moe drifted*, whose body is a table of every colour that moved, where it moved to and by which method. The method is half the news: a colour sliding from `mode` to `mean` says the site stopped painting that region flat, which no hex diff would tell you. A colour never changes without a human looking at the diff
 
 ## Changing a colour
 

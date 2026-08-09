@@ -46,12 +46,6 @@
       "where": "neutral separators",
       "source": "main.css (#dadada)",
       "method": "declared"
-    },
-    "shadow": {
-      "hex": "#0000004D",
-      "where": "drop shadows, 30% black",
-      "source": "main.css box-shadow rgba(0, 0, 0, .3)",
-      "method": "hand"
     }
   },
   "characters": {

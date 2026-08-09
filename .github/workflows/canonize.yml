@@ -37,15 +37,17 @@ jobs:
           fi
           git diff --stat
 
-          # Which colour moved where, so the notification alone says whether this needs a look
-          flat='[to_entries[] | select(.key != "meta" and .key != "base16")
-                  | .value | to_entries[] | {key, value: .value.hex}] | from_entries'
+          # Which colour moved where and by which method, so the notification alone says whether
+          # this needs a look. The method is half the news: a colour that slid from mode to mean
+          # means the site stopped painting that region flat, which no hex diff would say
+          flat='[to_entries[] | select(.key != "meta" and .key != "base16") | .value | to_entries[]
+                  | {key, value: "\(.value.hex) (\(.value.method))"}] | from_entries'
           table=$(jq -rn \
             --argjson a "$(jq -c "$flat" /tmp/committed.json)" \
             --argjson b "$(jq -c "$flat" palette.json)" '
               (($a | keys) + ($b | keys) | unique)[]
               | select($a[.] != $b[.])
-              | "| `\(.)` | \($a[.] // "absent") | \($b[.] // "absent") |"')
+              | "| `\(.)` | \($a[.] // "not in the palette") | \($b[.] // "gone") |"')
           if [ -n "$table" ]; then
             summary=$(printf '| colour | committed | measured now |\n| --- | --- | --- |\n%s\n' "$table")
           else

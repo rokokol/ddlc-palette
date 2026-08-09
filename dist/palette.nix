@@ -7,7 +7,6 @@
   plum = "#BB5599";
   ink = "#222222";
   ash = "#DADADA";
-  shadow = "#0000004D";
   sayori = "#F1A796";
   monika = "#D1897E";
   natsuki = "#FFBBC3";
