@@ -68,9 +68,9 @@
       "source": "images/sticker_y.png"
     },
     "monikaEye": {
-      "hex": "#8BD23F",
+      "hex": "#76C332",
       "where": "Monika — eyes; the palette's only green that is not dark",
-      "source": "images/sticker_m.png, the light of her iris by the pupil — the iris is a ramp with no commonest shade, so this is its brightest still-saturated green"
+      "source": "images/sticker_m.png, her iris — a ramp of 64 shades over 68 pixels with no commonest one, so this is the mean of its saturated greens"
     },
     "sayoriEye": {
       "hex": "#72D0FA",

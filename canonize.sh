@@ -72,18 +72,17 @@ pixels() {
 # The most frequent colour among the pixels an awk predicate accepts; -b also prints its
 # bounding box. The predicate reads hex, r, g, b, mx, sat, lum, x and y, so every measurement
 # below is one line: a region is named by what its colour looks like, not by a pinned crop.
-# -l takes the lightest match instead of the commonest: a flat fill has a mode, a gradient
-# does not, and there the brightest pixel is the only answer that is not a coin toss
+#
+# A flat fill has a commonest shade; a gradient does not, and no tie-break over equally frequent
+# shades is a measurement — picking one is a coin toss dressed up as arithmetic. So when the top
+# count is tied the answer is the mean of the whole bucket instead, and pick names the predicate
+# that forked on stderr rather than quietly changing method
 pick() {
-  local box=0 lightest=0 args=()
-  while [[ $1 == -v || $1 == -b || $1 == -l ]]; do
+  local box=0 args=()
+  while [[ $1 == -v || $1 == -b ]]; do
     case $1 in
       -b)
         box=1
-        shift
-        ;;
-      -l)
-        lightest=1
         shift
         ;;
       *)
@@ -93,7 +92,7 @@ pick() {
     esac
   done
   local test="$1"
-  awk -v box="$box" -v lightest="$lightest" "${args[@]}" '
+  awk -v box="$box" -v test="$test" "${args[@]}" '
     function h2d(s,   i, n) {
       n = 0
       for (i = 1; i <= length(s); i++) n = n * 16 + index("0123456789ABCDEF", substr(s, i, 1)) - 1
@@ -108,22 +107,30 @@ pick() {
       lum = (r * 299 + g * 587 + b * 114) / 1000
       if (!('"$test"')) next
       n[hex]++
-      L[hex] = lum
+      sr += r; sg += g; sb += b; total++
       if (!(hex in x0) || x < x0[hex]) x0[hex] = x
       if (!(hex in x1) || x > x1[hex]) x1[hex] = x
       if (!(hex in y0) || y < y0[hex]) y0[hex] = y
       if (!(hex in y1) || y > y1[hex]) y1[hex] = y
+      if (bx0 == "" || x < bx0) bx0 = x
+      if (bx1 == "" || x > bx1) bx1 = x
+      if (by0 == "" || y < by0) by0 = y
+      if (by1 == "" || y > by1) by1 = y
     }
-    # Ties broken by hex: "for (h in n)" has no order, and a canonizer may not be random
     END {
-      for (h in n) {
-        if (best == "") { best = h; continue }
-        if (lightest) {
-          if (L[h] > L[best] || (L[h] == L[best] && h < best)) best = h
-        } else if (n[h] > n[best] || (n[h] == n[best] && h < best)) best = h
+      if (!total) exit 1
+      # "for (h in n)" has no order, so count the winners rather than racing them
+      for (h in n) if (n[h] > top) top = n[h]
+      for (h in n) if (n[h] == top) tied++
+      if (tied == 1) {
+        for (h in n) if (n[h] == top) best = h
+        print "#" best (box ? " " x0[best] " " x1[best] " " y0[best] " " y1[best] : "")
+        exit 0
       }
-      if (best == "") exit 1
-      print "#" best (box ? " " x0[best] " " x1[best] " " y0[best] " " y1[best] : "")
+      printf("canonize.sh: '\''%s'\'' has no commonest shade — %d tie at %d px, so all %d are averaged\n", \
+        test, tied, top, total) > "/dev/stderr"
+      printf "#%02X%02X%02X%s\n", int(sr / total + 0.5), int(sg / total + 0.5), int(sb / total + 0.5), \
+        (box ? " " bx0 " " bx1 " " by0 " " by1 : "")
     }
   '
 }
@@ -169,9 +176,10 @@ skirt=$(sprites | pick 'b > r + 25 && b > g + 15 && sat > 0.30 && mx < 200')
 jacket=$(sprites | pick 'sat < 0.25 && lum > 120 && lum < 200 && r > b')
 # Yuri's hair where the light does not reach: the deepest tone the sprites paint
 yuri_shadow=$(sprites | pick 'b > g && r > g && lum < 70 && sat > 0.30')
-# Monika's iris is a ramp, so it has no commonest shade — take the light part by the pupil,
-# still saturated enough to be a green rather than the white it fades into
-monika_eye=$(pixels "$work/sticker_m.png" | pick -l 'g > r + 20 && g > b + 20 && sat > 0.60')
+# Monika's iris is a ramp of 64 shades over 68 pixels, so this is the one bucket that forks:
+# no shade repeats more than twice and the answer is their mean. The saturation floor keeps the
+# white it fades into from dragging that mean out of the green
+monika_eye=$(pixels "$work/sticker_m.png" | pick 'g > r + 20 && g > b + 20 && sat > 0.60')
 
 # The poem notebook holds the two tones no sprite does: a green dark enough to read on white,
 # and the one blue mid-way enough to read on white and on ink alike

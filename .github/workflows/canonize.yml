@@ -22,7 +22,10 @@ jobs:
       # canonize.sh rewrites palette.json and regenerates dist/ itself, so this refreshes
       # the assets as well as the numbers
       - name: re-read the site
-        run: nix develop -c ./canonize.sh
+        run: |
+          cp palette.json /tmp/committed.json
+          # It says on stderr when a bucket has no commonest shade and it averaged instead
+          nix develop -c ./canonize.sh
 
       - name: open a pull request if it drifted
         env:
@@ -33,16 +36,33 @@ jobs:
             exit 0
           fi
           git diff --stat
+
+          # Which colour moved where, so the notification alone says whether this needs a look
+          flat='[to_entries[] | select(.key != "meta" and .key != "base16")
+                  | .value | to_entries[] | {key, value: .value.hex}] | from_entries'
+          table=$(jq -rn \
+            --argjson a "$(jq -c "$flat" /tmp/committed.json)" \
+            --argjson b "$(jq -c "$flat" palette.json)" '
+              (($a | keys) + ($b | keys) | unique)[]
+              | select($a[.] != $b[.])
+              | "| `\(.)` | \($a[.] // "absent") | \($b[.] // "absent") |"')
+          if [ -n "$table" ]; then
+            summary=$(printf '| colour | committed | measured now |\n| --- | --- | --- |\n%s\n' "$table")
+          else
+            summary="No hex changed — only \`dist/\` drifted, so \`generate.sh\` output moved without a measurement moving."
+          fi
+
           branch=canonize/$(date -u +%Y-%m-%d)
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git switch -c "$branch"
-          git commit -am "canonize: ddlc.moe drifted"
+          git commit -qam "$(printf 'canonize: ddlc.moe drifted\n\n%s\n' "$summary")"
           git push -f origin "$branch"
           # A colour change wants a human eye on the diff, so never push straight to master
+          body=$(printf '`canonize.sh` re-read ddlc.moe and the measurements no longer match what is committed.\n\n%s\nEither the site changed or a measurement did — the run log says which buckets had no commonest shade and were averaged. Check the diff before merging.\n' "$summary")
           if [ "$(gh pr list --head "$branch" --state open --json number --jq length)" = 0 ]; then
-            gh pr create --head "$branch" --title "canonize: ddlc.moe drifted" \
-              --body "\`canonize.sh\` re-read the site and the measurements no longer match what is committed. Check the diff before merging: either the site changed, or a measurement did."
+            gh pr create --head "$branch" --title "canonize: ddlc.moe drifted" --body "$body"
           else
+            gh pr edit "$branch" --body "$body"
             echo "a pull request for $branch is already open — force-pushed onto it"
           fi

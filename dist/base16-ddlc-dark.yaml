@@ -16,7 +16,7 @@ palette:
   base08: "#CC0C29" # bow — images/screen5.png, the flat fill of Sayori's hair bow (sticker_s.png carries the same hex)
   base09: "#F1A796" # sayori — images/sticker_s.png
   base0A: "#D1897E" # monika — images/sticker_m.png
-  base0B: "#8BD23F" # monikaEye — images/sticker_m.png, the light of her iris by the pupil — the iris is a ramp with no commonest shade, so this is its brightest still-saturated green
+  base0B: "#76C332" # monikaEye — images/sticker_m.png, her iris — a ramp of 64 shades over 68 pixels with no commonest one, so this is the mean of its saturated greens
   base0C: "#72D0FA" # sayoriEye — images/sticker_s.png, the dominant shade of her iris — the only bright sky blue on the sprite
   base0D: "#6868B4" # rule — images/screen2.png, the ruled lines the poems are written on
   base0E: "#DD77BB" # pink — main.css .download-button:hover (#d7b)

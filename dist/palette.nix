@@ -12,7 +12,7 @@
   monika = "#D1897E";
   natsuki = "#FFBBC3";
   yuri = "#6C4681";
-  monikaEye = "#8BD23F";
+  monikaEye = "#76C332";
   sayoriEye = "#72D0FA";
   yuriShadow = "#361B39";
   jacket = "#B59CA1";

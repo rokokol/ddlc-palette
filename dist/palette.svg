@@ -36,9 +36,9 @@
   <rect x="510" y="176" width="170" height="88" fill="#6C4681"/>
   <text x="524" y="212" fill="#FFFFFF" font-size="17">yuri</text>
   <text x="524" y="238" fill="#FFFFFF" font-size="14" opacity="0.75">#6C4681</text>
-  <rect x="0" y="264" width="170" height="88" fill="#8BD23F"/>
+  <rect x="0" y="264" width="170" height="88" fill="#76C332"/>
   <text x="14" y="300" fill="#111111" font-size="17">monikaEye</text>
-  <text x="14" y="326" fill="#111111" font-size="14" opacity="0.75">#8BD23F</text>
+  <text x="14" y="326" fill="#111111" font-size="14" opacity="0.75">#76C332</text>
   <rect x="170" y="264" width="170" height="88" fill="#72D0FA"/>
   <text x="184" y="300" fill="#111111" font-size="17">sayoriEye</text>
   <text x="184" y="326" fill="#111111" font-size="14" opacity="0.75">#72D0FA</text>
