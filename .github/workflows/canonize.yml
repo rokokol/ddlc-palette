@@ -1,11 +1,16 @@
 name: canonize
 
-# Re-reads ddlc.moe and fails if the palette no longer matches it. Separate from
-# the main check on purpose: this one depends on a third-party site being up
+# Re-reads ddlc.moe every week and opens a pull request when the site has drifted away from
+# what is committed. Separate from the main check on purpose: this one depends on a
+# third-party site being up, so its failures say nothing about the code
 on:
   schedule:
-    - cron: "0 6 1 * *"
+    - cron: "0 6 * * 1"
   workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
 
 jobs:
   site:
@@ -13,7 +18,31 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: cachix/install-nix-action@v31
-      - name: palette still matches the site
+
+      # canonize.sh rewrites palette.json and regenerates dist/ itself, so this refreshes
+      # the assets as well as the numbers
+      - name: re-read the site
+        run: nix develop -c ./canonize.sh
+
+      - name: open a pull request if it drifted
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          nix develop -c ./canonize.sh
-          git diff --exit-code palette.json
+          if git diff --quiet; then
+            echo "palette.json and dist/ still match ddlc.moe"
+            exit 0
+          fi
+          git diff --stat
+          branch=canonize/$(date -u +%Y-%m-%d)
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -c "$branch"
+          git commit -am "canonize: ddlc.moe drifted"
+          git push -f origin "$branch"
+          # A colour change wants a human eye on the diff, so never push straight to master
+          if [ "$(gh pr list --head "$branch" --state open --json number --jq length)" = 0 ]; then
+            gh pr create --head "$branch" --title "canonize: ddlc.moe drifted" \
+              --body "\`canonize.sh\` re-read the site and the measurements no longer match what is committed. Check the diff before merging: either the site changed, or a measurement did."
+          else
+            echo "a pull request for $branch is already open — force-pushed onto it"
+          fi

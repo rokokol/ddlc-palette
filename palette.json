@@ -2,7 +2,7 @@
   "meta": {
     "name": "ddlc-palette",
     "source": "https://ddlc.moe/",
-    "note": "Colours measured from the official site: main.css for the interface, images/tilebg.png for the background, the sticker_?.png sprites for the characters, images/screen5.png for the reds. Every hex here is a value the site actually ships"
+    "note": "Colours measured from the official site: main.css for the interface, images/tilebg.png for the background, the sticker_?.png sprites for the characters and the uniform they wear, images/screen2.png for the two tones no sprite holds, images/screen5.png for the reds. Every hex here is a value the site actually ships"
   },
   "interface": {
     "paper": {
@@ -66,6 +66,45 @@
       "hex": "#6C4681",
       "where": "Yuri — hair",
       "source": "images/sticker_y.png"
+    },
+    "monikaEye": {
+      "hex": "#8BD23F",
+      "where": "Monika — eyes; the palette's only green that is not dark",
+      "source": "images/sticker_m.png, the light of her iris by the pupil — the iris is a ramp with no commonest shade, so this is its brightest still-saturated green"
+    },
+    "sayoriEye": {
+      "hex": "#72D0FA",
+      "where": "Sayori — eyes; the palette's only light blue",
+      "source": "images/sticker_s.png, the dominant shade of her iris — the only bright sky blue on the sprite"
+    },
+    "yuriShadow": {
+      "hex": "#361B39",
+      "where": "Yuri — hair out of the light; the darkest tone the palette has",
+      "source": "images/sticker_y.png, her hair where the light does not reach"
+    }
+  },
+  "uniform": {
+    "jacket": {
+      "hex": "#B59CA1",
+      "where": "the palette's only mid grey — comments, disabled text",
+      "source": "the sticker_?.png sprites, the school jacket in the light"
+    },
+    "skirt": {
+      "hex": "#4B669E",
+      "where": "the dark blue",
+      "source": "the sticker_?.png sprites, the pleated skirt"
+    }
+  },
+  "notebook": {
+    "ribbon": {
+      "hex": "#3F6B3F",
+      "where": "the dark green — no sprite holds a green this deep",
+      "source": "images/screen2.png, the poem notebook's cover and ribbon"
+    },
+    "rule": {
+      "hex": "#6868B4",
+      "where": "the middle blue — the one colour that reads on white and on ink alike",
+      "source": "images/screen2.png, the ruled lines the poems are written on"
     }
   },
   "accents": {
@@ -78,6 +117,45 @@
       "hex": "#8C1132",
       "where": "the quiet red — error text",
       "source": "images/screen5.png, the shaded fold of the same bow"
+    }
+  },
+  "base16": {
+    "note": "Slots hold palette key names, not hex, so a re-measured colour reaches the schemes without editing this. base00-base07 run background to foreground and are ordered by luminance; no colour may fill two slots of one variant. The palette is polarised — a colour that reads on ink is a pastel on paper — so the two variants draw different accents, each picked to clear 3:1 against its own background. The site ships no yellow and no orange, so base09 and base0A carry the warm character colours in both",
+    "dark": {
+      "base00": "ink",
+      "base01": "yuri",
+      "base02": "skirt",
+      "base03": "jacket",
+      "base04": "natsuki",
+      "base05": "blush",
+      "base06": "dot",
+      "base07": "paper",
+      "base08": "bow",
+      "base09": "sayori",
+      "base0A": "monika",
+      "base0B": "monikaEye",
+      "base0C": "sayoriEye",
+      "base0D": "rule",
+      "base0E": "pink",
+      "base0F": "bowShadow"
+    },
+    "light": {
+      "base00": "paper",
+      "base01": "dot",
+      "base02": "natsuki",
+      "base03": "jacket",
+      "base04": "yuri",
+      "base05": "yuriShadow",
+      "base06": "ink",
+      "base07": "blush",
+      "base08": "bow",
+      "base09": "sayori",
+      "base0A": "monika",
+      "base0B": "ribbon",
+      "base0C": "rule",
+      "base0D": "skirt",
+      "base0E": "plum",
+      "base0F": "bowShadow"
     }
   }
 }

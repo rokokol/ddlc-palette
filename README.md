@@ -25,10 +25,15 @@ Not from a screenshot and not from taste — from [ddlc.moe](https://ddlc.moe/) 
 | --- | --- |
 | **interface** | `main.css` — the divider, the button and its hover, the link colour, the dark footer |
 | **dot**, **paper** | `images/tilebg.png`, the site's own background tile: 200×200, dots of radius 40 on a half-step grid, `#FFDBF0` on white |
-| **characters** | the `sticker_?.png` sprites, most frequent hair colour across the top of each head |
+| **characters** | the `sticker_?.png` sprites: most frequent hair colour across the top of each head, Sayori's and Monika's eyes, and Yuri's hair out of the light |
+| **uniform** | the same four sprites: the jacket and the pleated skirt, the palette's only mid grey and its darker blue |
+| **notebook** | `images/screen2.png`, the poem minigame: the cover ribbon and the ruled lines — the two tones no sprite holds, a green dark enough for white and the one blue that reads on either ground |
 | **accents** | `images/screen5.png`, the two tones of Sayori's bow — the site ships no other strong red |
 
-Nothing here is invented
+Nothing here is invented, and nothing is averaged into existence. Where the site paints a flat fill,
+the measurement is its commonest pixel; where it paints a gradient there is no commonest pixel, so the
+rule is stated instead — Monika's iris is a ramp whose four most frequent shades tie at two pixels
+each, and `monikaEye` is its brightest still-saturated green, the light by the pupil
 
 Each entry in `palette.json` carries its own `where` and `source`, so nothing in here is unattributable
 
@@ -40,9 +45,10 @@ Each entry in `palette.json` carries its own `where` and `source`, so nothing in
 {
   inputs.ddlc-palette.url = "github:rokokol/ddlc-palette";
 
-  # inputs.ddlc-palette.lib.palette.plum  ->  "#BB5599"
-  # inputs.ddlc-palette.lib.bare.plum     ->  "BB5599"   (hyprland, hyprlock, mako)
-  # inputs.ddlc-palette.lib.annotated     ->  grouped, with provenance
+  # inputs.ddlc-palette.lib.palette.plum       ->  "#BB5599"
+  # inputs.ddlc-palette.lib.bare.plum          ->  "BB5599"   (hyprland, hyprlock, mako)
+  # inputs.ddlc-palette.lib.annotated          ->  grouped, with provenance
+  # inputs.ddlc-palette.lib.base16.dark.base0D ->  "#6868B4"
 }
 ```
 
@@ -55,21 +61,81 @@ Each entry in `palette.json` carries its own `where` and `source`, so nothing in
 | `dist/palette.sh` | `DDLC_PLUM='#BB5599'` — source it |
 | `dist/palette.env` | `plum=BB5599` — bare hex, for configs that reject `#` |
 | `dist/palette.svg` | the swatch card above |
+| `dist/base16-ddlc-dark.yaml` | a base16 scheme, and `-light.yaml` beside it |
+
+## As a theme
+
+`dist/base16-ddlc-{light,dark}.yaml` are [base16](https://github.com/tinted-theming/home) schemes, so
+the hundreds of templates that already exist will turn them into a config for your terminal, editor or
+shell — nothing app-specific is kept in here:
+
+```sh
+base16-builder --scheme dist/base16-ddlc-dark.yaml --template kitty
+```
+
+Every slot names the palette key it came from and that key's own provenance, so a scheme is readable
+on its own:
+
+```yaml
+base02: "#4B669E" # skirt — the sticker_?.png sprites, the pleated skirt
+```
+
+| slot | | dark | light |
+| --- | --- | --- | --- |
+| `base00` | background | `ink` | `paper` |
+| `base01` | lighter background | `yuri` | `dot` |
+| `base02` | selection | `skirt` | `natsuki` |
+| `base03` | comments | `jacket` | `jacket` |
+| `base04` | dark foreground | `natsuki` | `yuri` |
+| `base05` | **foreground** | `blush` | `yuriShadow` |
+| `base06` | light foreground | `dot` | `ink` |
+| `base07` | light background | `paper` | `blush` |
+| `base08` | red | `bow` | `bow` |
+| `base09` | orange | `sayori` | `sayori` |
+| `base0A` | yellow | `monika` | `monika` |
+| `base0B` | green | `monikaEye` | `ribbon` |
+| `base0C` | cyan | `sayoriEye` | `rule` |
+| `base0D` | blue | `rule` | `skirt` |
+| `base0E` | magenta | `pink` | `plum` |
+| `base0F` | brown | `bowShadow` | `bowShadow` |
+
+The two variants draw different accents because the palette is polarised: a colour that reads on `ink`
+is a pastel on `paper`. `base00`–`base06` are ordered by luminance and every other slot clears 3:1
+against its own background, with three exceptions the source material forces:
+
+- **no yellow and no orange exist on the site at all.** `base09` and `base0A` carry the two warm
+  character colours, which on the light variant are tints (1.96:1 and 2.77:1) rather than accents
+- **there is exactly one red**, Sayori's bow, so the dark variant's `base08` sits at 2.77:1
+- `base0F` is the slot base16 itself calls rarely used, and it holds the darker of those two reds
+
+`ash` is the only palette entry no slot uses — a neutral grey wedged between two pinks in luminance,
+which would break the ramp it would otherwise fit into. A check enforces the rest: sixteen filled
+slots per variant, no colour spent twice, and a ramp that never turns back
 
 ## Re-reading the site
 
 The provenance above is a claim until something reproduces it, so `canonize.sh` does:
-it fetches `main.css`, the tile, the four sprites and a screenshot, measures every colour again and writes
-`palette.json`. Running it against today's site reproduces every hex in this repository exactly
+it fetches `main.css`, the tile, the four sprites and two screenshots, measures every colour again and
+writes `palette.json` and `dist/`. Running it against today's site reproduces every hex in this
+repository exactly
 
 ```sh
 nix develop -c ./canonize.sh   # or: curl, jq, imagemagick, awk on PATH
-./generate.sh
+```
+
+Each colour is one line naming what it looks like rather than where to crop — `pick` takes an awk
+predicate over `hex`, `r`, `g`, `b`, `sat`, `lum`, `x` and `y` and returns the most frequent pixel that
+matches, so a region is identified by its colour, not by coordinates that a redesign would invalidate:
+
+```sh
+jacket=$(sprites | pick 'sat < 0.25 && lum > 120 && lum < 200 && r > b')
 ```
 
 It refuses to guess: the site answers `200` with an HTML page for anything missing, so the script
 checks `content-type` rather than the status code, and it aborts if a CSS rule it reads has lost its
-colour. A monthly workflow runs it and fails if the site has drifted away from what is committed
+colour. A weekly workflow runs it and, if the site has drifted, commits the re-measured palette and
+regenerated `dist/` to a branch and opens a pull request — a colour never changes without a human
+looking at the diff
 
 ## Changing a colour
 

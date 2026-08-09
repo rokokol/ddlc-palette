@@ -15,7 +15,7 @@ mkdir -p "$out"
 
 # Flatten to "group name hex" lines — every format below is built from these
 flat() {
-  jq -r 'to_entries[] | select(.key != "meta") | .key as $g
+  jq -r 'to_entries[] | select(.key != "meta" and .key != "base16") | .key as $g
     | .value | to_entries[] | "\($g) \(.key) \(.value.hex)"' "$src"
 }
 
@@ -68,6 +68,26 @@ snake() {
   flat | while read -r _ name hex; do echo "$name=${hex#\#}"; done
 } >"$out/palette.env"
 
+# base16 schemes, one file per variant. A bare "base0B" says nothing about where its colour
+# came from, so every slot carries the palette key and that entry's own provenance
+for variant in light dark; do
+  {
+    echo "# $banner"
+    echo "system: \"base16\""
+    echo "name: \"DDLC $variant\""
+    echo "author: \"rokokol — colours by Team Salvato, measured off https://ddlc.moe/\""
+    echo "variant: \"$variant\""
+    echo "description: \"The Doki Doki Literature Club colours, read off the official site. Provenance per colour: https://github.com/rokokol/ddlc-palette/blob/master/palette.json\""
+    echo "palette:"
+    jq -r --arg v "$variant" '
+      ([to_entries[] | select(.key != "meta" and .key != "base16") | .value | to_entries[]]
+        | from_entries) as $c
+      | .base16[$v] | to_entries[] | select(.key | startswith("base"))
+      | "  \(.key): \"\($c[.value].hex)\" # \(.value) — \($c[.value].source)"
+    ' "$src"
+  } >"$out/base16-ddlc-$variant.yaml"
+done
+
 # Swatch card for the README — SVG so the labels use the reader's own font
 {
   cols=4
@@ -96,4 +116,4 @@ snake() {
   echo "</svg>"
 } >"$out/palette.svg"
 
-echo "wrote $out/palette.{css,nix,sh,env,svg}"
+echo "wrote $out/palette.{css,nix,sh,env,svg} and $out/base16-ddlc-{light,dark}.yaml"

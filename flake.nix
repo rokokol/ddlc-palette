@@ -15,7 +15,10 @@
       forAllSystems = f: nixpkgs.lib.genAttrs systems (system: f nixpkgs.legacyPackages.${system});
 
       raw = builtins.fromJSON (builtins.readFile ./palette.json);
-      groups = builtins.removeAttrs raw [ "meta" ];
+      groups = builtins.removeAttrs raw [
+        "meta"
+        "base16"
+      ];
     in
     {
       # The palette itself: { paper = "#FFFFFF"; ... } — one flat attrset, names unique across groups
@@ -31,6 +34,12 @@
 
         # Strip the "#" — hyprland, hyprlock and mako want bare hex
         bare = builtins.mapAttrs (_: v: builtins.substring 1 (builtins.stringLength v) v) self.lib.palette;
+
+        # { dark = { base00 = "#222222"; ... }; light = { ... }; } — the slots hold palette
+        # key names in the JSON, so resolve them against the palette itself
+        base16 = builtins.mapAttrs (_: slots: builtins.mapAttrs (_: name: self.lib.palette.${name}) slots) (
+          builtins.removeAttrs raw.base16 [ "note" ]
+        );
       };
 
       packages = forAllSystems (pkgs: {
@@ -59,6 +68,47 @@
           cp -r ${./.}/. work && chmod -R +w work
           cd work && bash generate.sh >/dev/null
           diff -r ${./dist} dist
+          touch $out
+        '';
+
+        # A scheme is only usable if every slot is filled, no colour is spent twice and the
+        # background-to-foreground ramp really is one
+        base16-is-sane = pkgs.runCommand "base16-is-sane" { nativeBuildInputs = [ pkgs.jq ]; } ''
+          jq -r '
+            ([to_entries[] | select(.key != "meta" and .key != "base16") | .value | to_entries[]]
+              | from_entries) as $c
+            | .base16 | to_entries[] | select(.key != "note") | .key as $v
+            | .value | to_entries[] | select(.key | startswith("base"))
+            | "\($v) \(.key) \(.value) \($c[.value].hex // "unmeasured")"
+          ' ${./palette.json} | awk '
+            function h2d(s,   i, n) {
+              n = 0
+              for (i = 1; i <= length(s); i++) n = n * 16 + index("0123456789ABCDEF", substr(s, i, 1)) - 1
+              return n
+            }
+            {
+              variant = $1; slot = $2; name = $3; hex = $4
+              if (hex !~ /^#[0-9A-F]{6}$/) fail(variant " " slot " (" name ") is " hex)
+              if ((variant, hex) in seen)
+                fail(variant " spends " hex " on both " seen[variant, hex] " and " slot)
+              seen[variant, hex] = slot
+              n[variant]++
+              if (slot ~ /^base0[0-6]$/) {
+                lum = (h2d(substr(hex, 2, 2)) * 299 + h2d(substr(hex, 4, 2)) * 587 + h2d(substr(hex, 6, 2)) * 114) / 1000
+                step = lum - last[variant]
+                # base01 fixes which way the ramp runs; light and dark go opposite ways
+                if (slot == "base01") dir[variant] = step > 0 ? 1 : -1
+                if (slot != "base00" && step * dir[variant] <= 0)
+                  fail(variant " ramp turns back at " slot)
+                last[variant] = lum
+              }
+            }
+            function fail(msg) { print "base16: " msg > "/dev/stderr"; bad = 1 }
+            END {
+              for (v in n) if (n[v] != 16) fail(v " has " n[v] " slots, want 16")
+              exit bad ? 1 : 0
+            }
+          '
           touch $out
         '';
       });
