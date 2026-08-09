@@ -5,19 +5,19 @@ author: "rokokol — colours by Team Salvato, measured off https://ddlc.moe/"
 variant: "light"
 description: "The Doki Doki Literature Club colours, read off the official site. Provenance per colour: https://github.com/rokokol/ddlc-palette/blob/master/palette.json"
 palette:
-  base00: "#FFFFFF" # paper — main.css .content background, tilebg.png ground
-  base01: "#FFDBF0" # dot — images/tilebg.png, 200x200 tile, dots of radius 40 on a half-step offset grid
-  base02: "#FFBBC3" # natsuki — images/sticker_n.png
-  base03: "#B59CA1" # jacket — the sticker_?.png sprites, the school jacket in the light
-  base04: "#6C4681" # yuri — images/sticker_y.png
-  base05: "#361B39" # yuriShadow — images/sticker_y.png, her hair where the light does not reach
-  base06: "#222222" # ink — main.css footer background (#222)
-  base07: "#FFBDE1" # blush — main.css .banner-divider
-  base08: "#CC0C29" # bow — images/screen5.png, the flat fill of Sayori's hair bow (sticker_s.png carries the same hex)
-  base09: "#F1A796" # sayori — images/sticker_s.png
-  base0A: "#D1897E" # monika — images/sticker_m.png
-  base0B: "#3F6B3F" # ribbon — images/screen2.png, the poem notebook's cover and ribbon
-  base0C: "#6868B4" # rule — images/screen2.png, the ruled lines the poems are written on
-  base0D: "#4B669E" # skirt — the sticker_?.png sprites, the pleated skirt
-  base0E: "#BB5599" # plum — main.css .download-button (#b59) and .description-container a
-  base0F: "#8C1132" # bowShadow — images/screen5.png, the shaded fold of the same bow
+  base00: "#FFFFFF" # paper (declared) — main.css .content background, tilebg.png ground
+  base01: "#FFDBF0" # dot (mode) — images/tilebg.png, 200x200 tile, dots of radius 40 on a half-step offset grid
+  base02: "#FFBBC3" # natsuki (mode) — images/sticker_n.png
+  base03: "#B59CA1" # jacket (mode) — the sticker_?.png sprites, the school jacket in the light
+  base04: "#6C4681" # yuri (mode) — images/sticker_y.png
+  base05: "#361B39" # yuriShadow (mode) — images/sticker_y.png, her hair where the light does not reach
+  base06: "#222222" # ink (declared) — main.css footer background (#222)
+  base07: "#FFBDE1" # blush (declared) — main.css .banner-divider
+  base08: "#CC0C29" # bow (mode) — images/screen5.png, the flat fill of Sayori's hair bow (sticker_s.png carries the same hex)
+  base09: "#F1A796" # sayori (mode) — images/sticker_s.png
+  base0A: "#D1897E" # monika (mode) — images/sticker_m.png
+  base0B: "#3F6B3F" # ribbon (mode) — images/screen2.png, the poem notebook's cover and ribbon
+  base0C: "#6868B4" # rule (mode) — images/screen2.png, the ruled lines the poems are written on
+  base0D: "#4B669E" # skirt (mode) — the sticker_?.png sprites, the pleated skirt
+  base0E: "#BB5599" # plum (declared) — main.css .download-button (#b59) and .description-container a
+  base0F: "#8C1132" # bowShadow (mode) — images/screen5.png, the shaded fold of the same bow

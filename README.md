@@ -29,7 +29,16 @@ Not from a screenshot and not from taste — from [ddlc.moe](https://ddlc.moe/) 
 
 Nothing here is invented. Where the site paints a flat fill the measurement is its commonest pixel, and every colour above is that — except one. Monika's iris is a ramp: 64 shades over 68 pixels, four of them tied at two pixels each. A tie-break over equally frequent shades is not a measurement, so that is where the rule forks and `monikaEye` is the mean of the bucket instead. `canonize.sh` says on stderr when it forks, so the method can never change quietly
 
-Each entry in `palette.json` carries its own `where` and `source`, so nothing in here is unattributable
+Each entry in `palette.json` carries its own `where`, `source` and `method`, so nothing in here is unattributable and no hex hides how it was arrived at:
+
+| `method` | how the hex was arrived at | how many |
+| --- | --- | --- |
+| `declared` | lifted straight out of a `main.css` declaration, so there is nothing to measure | 6 |
+| `mode` | the commonest pixel of everything the colour's predicate accepts | 13 |
+| `mean` | the average of that bucket, because its top count was tied — today only `monikaEye` | 1 |
+| `hand` | transcribed rather than read: `shadow` alone, whose `rgba(0, 0, 0, .3)` is no hex to fetch | 1 |
+
+A check refuses a palette entry that is missing any of the four fields or claims a method outside that list, so a colour added later cannot arrive unattributed
 
 ## Use it
 
@@ -65,10 +74,10 @@ Each entry in `palette.json` carries its own `where` and `source`, so nothing in
 base16-builder --scheme dist/base16-ddlc-dark.yaml --template kitty
 ```
 
-Every slot names the palette key it came from and that key's own provenance, so a scheme is readable on its own:
+Every slot names the palette key it came from, how that key was arrived at and its provenance, so a scheme is readable on its own:
 
 ```yaml
-base02: "#4B669E" # skirt — the sticker_?.png sprites, the pleated skirt
+base02: "#4B669E" # skirt (mode) — the sticker_?.png sprites, the pleated skirt
 ```
 
 | slot | | dark | light |
@@ -100,7 +109,7 @@ The two variants draw different accents because the palette is polarised: a colo
 
 ## Re-reading the site
 
-The provenance above is a claim until something reproduces it, so `canonize.sh` does: it fetches `main.css`, the tile, the four sprites and two screenshots, measures every colour again and writes `palette.json` and `dist/`. Running it against today's site reproduces every hex in this repository exactly
+The provenance above is a claim until something reproduces it, so `canonize.sh` does: it fetches `main.css`, the tile, the four sprites and two screenshots, measures every colour but `shadow` again and writes `palette.json` and `dist/`, each entry's `method` alongside its hex. Running it against today's site reproduces every hex in this repository exactly
 
 ```sh
 nix develop -c ./canonize.sh   # or: curl, jq, imagemagick, awk on PATH

@@ -8,115 +8,136 @@
     "paper": {
       "hex": "#FFFFFF",
       "where": "page ground and content cards",
-      "source": "main.css .content background, tilebg.png ground"
+      "source": "main.css .content background, tilebg.png ground",
+      "method": "declared"
     },
     "dot": {
       "hex": "#FFDBF0",
       "where": "the dots of the background grid",
-      "source": "images/tilebg.png, 200x200 tile, dots of radius 40 on a half-step offset grid"
+      "source": "images/tilebg.png, 200x200 tile, dots of radius 40 on a half-step offset grid",
+      "method": "mode"
     },
     "blush": {
       "hex": "#FFBDE1",
       "where": "dividers, soft borders",
-      "source": "main.css .banner-divider"
+      "source": "main.css .banner-divider",
+      "method": "declared"
     },
     "pink": {
       "hex": "#DD77BB",
       "where": "hover, live accents",
-      "source": "main.css .download-button:hover (#d7b)"
+      "source": "main.css .download-button:hover (#d7b)",
+      "method": "declared"
     },
     "plum": {
       "hex": "#BB5599",
       "where": "links, buttons, strong accents",
-      "source": "main.css .download-button (#b59) and .description-container a"
+      "source": "main.css .download-button (#b59) and .description-container a",
+      "method": "declared"
     },
     "ink": {
       "hex": "#222222",
       "where": "text, dark blocks",
-      "source": "main.css footer background (#222)"
+      "source": "main.css footer background (#222)",
+      "method": "declared"
     },
     "ash": {
       "hex": "#DADADA",
       "where": "neutral separators",
-      "source": "main.css (#dadada)"
+      "source": "main.css (#dadada)",
+      "method": "declared"
     },
     "shadow": {
       "hex": "#0000004D",
       "where": "drop shadows, 30% black",
-      "source": "main.css box-shadow rgba(0, 0, 0, .3)"
+      "source": "main.css box-shadow rgba(0, 0, 0, .3)",
+      "method": "hand"
     }
   },
   "characters": {
     "sayori": {
       "hex": "#F1A796",
       "where": "Sayori — hair",
-      "source": "images/sticker_s.png"
+      "source": "images/sticker_s.png",
+      "method": "mode"
     },
     "monika": {
       "hex": "#D1897E",
       "where": "Monika — hair",
-      "source": "images/sticker_m.png"
+      "source": "images/sticker_m.png",
+      "method": "mode"
     },
     "natsuki": {
       "hex": "#FFBBC3",
       "where": "Natsuki — hair",
-      "source": "images/sticker_n.png"
+      "source": "images/sticker_n.png",
+      "method": "mode"
     },
     "yuri": {
       "hex": "#6C4681",
       "where": "Yuri — hair",
-      "source": "images/sticker_y.png"
+      "source": "images/sticker_y.png",
+      "method": "mode"
     },
     "monikaEye": {
       "hex": "#76C332",
       "where": "Monika — eyes; the palette's only green that is not dark",
-      "source": "images/sticker_m.png, her iris — a ramp of 64 shades over 68 pixels with no commonest one, so this is the mean of its saturated greens"
+      "source": "images/sticker_m.png, her iris — a ramp of 64 shades over 68 pixels with no commonest one, so this is the mean of its saturated greens",
+      "method": "mean"
     },
     "sayoriEye": {
       "hex": "#72D0FA",
       "where": "Sayori — eyes; the palette's only light blue",
-      "source": "images/sticker_s.png, the dominant shade of her iris — the only bright sky blue on the sprite"
+      "source": "images/sticker_s.png, the dominant shade of her iris — the only bright sky blue on the sprite",
+      "method": "mode"
     },
     "yuriShadow": {
       "hex": "#361B39",
       "where": "Yuri — hair out of the light; the darkest tone the palette has",
-      "source": "images/sticker_y.png, her hair where the light does not reach"
+      "source": "images/sticker_y.png, her hair where the light does not reach",
+      "method": "mode"
     }
   },
   "uniform": {
     "jacket": {
       "hex": "#B59CA1",
       "where": "the palette's only mid grey — comments, disabled text",
-      "source": "the sticker_?.png sprites, the school jacket in the light"
+      "source": "the sticker_?.png sprites, the school jacket in the light",
+      "method": "mode"
     },
     "skirt": {
       "hex": "#4B669E",
       "where": "the dark blue",
-      "source": "the sticker_?.png sprites, the pleated skirt"
+      "source": "the sticker_?.png sprites, the pleated skirt",
+      "method": "mode"
     }
   },
   "notebook": {
     "ribbon": {
       "hex": "#3F6B3F",
       "where": "the dark green — no sprite holds a green this deep",
-      "source": "images/screen2.png, the poem notebook's cover and ribbon"
+      "source": "images/screen2.png, the poem notebook's cover and ribbon",
+      "method": "mode"
     },
     "rule": {
       "hex": "#6868B4",
       "where": "the middle blue — the one colour that reads on white and on ink alike",
-      "source": "images/screen2.png, the ruled lines the poems are written on"
+      "source": "images/screen2.png, the ruled lines the poems are written on",
+      "method": "mode"
     }
   },
   "accents": {
     "bow": {
       "hex": "#CC0C29",
       "where": "the loud red — glitches, alarms",
-      "source": "images/screen5.png, the flat fill of Sayori's hair bow (sticker_s.png carries the same hex)"
+      "source": "images/screen5.png, the flat fill of Sayori's hair bow (sticker_s.png carries the same hex)",
+      "method": "mode"
     },
     "bowShadow": {
       "hex": "#8C1132",
       "where": "the quiet red — error text",
-      "source": "images/screen5.png, the shaded fold of the same bow"
+      "source": "images/screen5.png, the shaded fold of the same bow",
+      "method": "mode"
     }
   },
   "base16": {

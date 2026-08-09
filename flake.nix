@@ -71,6 +71,33 @@
           touch $out
         '';
 
+        # Provenance is the point of this repository, so an entry without it is a bug, not a
+        # style lapse. "method" says how the hex was arrived at: read out of a CSS declaration,
+        # the commonest pixel of a bucket, the mean of one that has no commonest pixel, or —
+        # for shadow alone, whose rgba() is no hex to read — transcribed by hand
+        palette-is-annotated =
+          pkgs.runCommand "palette-is-annotated" { nativeBuildInputs = [ pkgs.jq ]; }
+            ''
+              bad=$(jq -r '
+                [ to_entries[]
+                  | select(.key != "meta" and .key != "base16")
+                  | .key as $g | .value | to_entries[] | .key as $k | .value as $v
+                  | (["hex", "where", "source", "method"] - ($v | keys)) as $gone
+                  | if $gone != [] then "\($g).\($k) is missing \($gone | join(", "))"
+                    elif ($v.hex | test("^#[0-9A-F]{6}([0-9A-F]{2})?$") | not) then
+                      "\($g).\($k) hex is \($v.hex)"
+                    elif (["declared", "mode", "mean", "hand"] | index($v.method) | not) then
+                      "\($g).\($k) method is \($v.method)"
+                    else empty end
+                ] | .[]
+              ' ${./palette.json})
+              if [ -n "$bad" ]; then
+                echo "$bad" | sed 's/^/palette: /' >&2
+                exit 1
+              fi
+              touch $out
+            '';
+
         # A scheme is only usable if every slot is filled, no colour is spent twice and the
         # background-to-foreground ramp really is one
         base16-is-sane = pkgs.runCommand "base16-is-sane" { nativeBuildInputs = [ pkgs.jq ]; } ''

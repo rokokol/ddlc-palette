@@ -68,8 +68,8 @@ snake() {
   flat | while read -r _ name hex; do echo "$name=${hex#\#}"; done
 } >"$out/palette.env"
 
-# base16 schemes, one file per variant. A bare "base0B" says nothing about where its colour
-# came from, so every slot carries the palette key and that entry's own provenance
+# base16 schemes, one file per variant. A bare "base0B" says nothing about where its colour came
+# from, so every slot carries the palette key, how that key was arrived at and its own provenance
 for variant in light dark; do
   {
     echo "# $banner"
@@ -83,7 +83,7 @@ for variant in light dark; do
       ([to_entries[] | select(.key != "meta" and .key != "base16") | .value | to_entries[]]
         | from_entries) as $c
       | .base16[$v] | to_entries[] | select(.key | startswith("base"))
-      | "  \(.key): \"\($c[.value].hex)\" # \(.value) — \($c[.value].source)"
+      | "  \(.key): \"\($c[.value].hex)\" # \(.value) (\($c[.value].method)) — \($c[.value].source)"
     ' "$src"
   } >"$out/base16-ddlc-$variant.yaml"
 done
