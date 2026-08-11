@@ -209,7 +209,10 @@ METERS
     echo
     # group  fg  bg  gui — "-" is NONE, and a lone "" row breaks the file into sections
     while read -r group fg bg gui; do
-      [ -z "$group" ] && { echo; continue; }
+      [ -z "$group" ] && {
+        echo
+        continue
+      }
       [ "$fg" = "-" ] && fg=NONE || fg="$(s "$fg")"
       [ "$bg" = "-" ] && bg=NONE || bg="$(s "$bg")"
       echo "hi $group guifg=$fg guibg=$bg gui=${gui:-NONE}"
