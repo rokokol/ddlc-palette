@@ -6,8 +6,8 @@ variant: "dark"
 description: "The Doki Doki Literature Club colours, read off the official site. Provenance per colour: https://github.com/rokokol/ddlc-palette/blob/master/palette.json"
 palette:
   base00: "#222222" # ink (declared) — main.css footer background (#222)
-  base01: "#6C4681" # yuri (mode) — images/sticker_y.png
-  base02: "#4B669E" # skirt (mode) — the sticker_?.png sprites, the pleated skirt
+  base01: "#361B39" # yuriShadow (mode) — images/sticker_y.png, her hair where the light does not reach
+  base02: "#6C4681" # yuri (mode) — images/sticker_y.png
   base03: "#B59CA1" # jacket (mode) — the sticker_?.png sprites, the school jacket in the light
   base04: "#FFBBC3" # natsuki (mode) — images/sticker_n.png
   base05: "#FFBDE1" # blush (declared) — main.css .banner-divider
@@ -17,7 +17,7 @@ palette:
   base09: "#F1A796" # sayori (mode) — images/sticker_s.png
   base0A: "#D1897E" # monika (mode) — images/sticker_m.png
   base0B: "#76C332" # monikaEye (mean) — images/sticker_m.png, her iris — a ramp of 64 shades over 68 pixels with no commonest one, so this is the mean of its saturated greens
-  base0C: "#72D0FA" # sayoriEye (mode) — images/sticker_s.png, the dominant shade of her iris — the only bright sky blue on the sprite
-  base0D: "#6868B4" # rule (mode) — images/screen2.png, the ruled lines the poems are written on
+  base0C: "#6868B4" # rule (mode) — images/screen2.png, the ruled lines the poems are written on
+  base0D: "#72D0FA" # sayoriEye (mode) — images/sticker_s.png, the dominant shade of her iris — the only bright sky blue on the sprite
   base0E: "#DD77BB" # pink (declared) — main.css .download-button:hover (#d7b)
   base0F: "#8C1132" # bowShadow (mode) — images/screen5.png, the shaded fold of the same bow

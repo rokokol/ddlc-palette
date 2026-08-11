@@ -84,8 +84,8 @@ base02: "#4B669E" # skirt (mode) — the sticker_?.png sprites, the pleated skir
 | slot | | dark | light |
 | --- | --- | --- | --- |
 | `base00` | background | `ink` | `paper` |
-| `base01` | lighter background | `yuri` | `dot` |
-| `base02` | selection | `skirt` | `natsuki` |
+| `base01` | lighter background | `yuriShadow` | `dot` |
+| `base02` | selection | `yuri` | `natsuki` |
 | `base03` | comments | `jacket` | `jacket` |
 | `base04` | dark foreground | `natsuki` | `yuri` |
 | `base05` | **foreground** | `blush` | `yuriShadow` |
@@ -95,8 +95,8 @@ base02: "#4B669E" # skirt (mode) — the sticker_?.png sprites, the pleated skir
 | `base09` | orange | `sayori` | `sayori` |
 | `base0A` | yellow | `monika` | `monika` |
 | `base0B` | green | `monikaEye` | `ribbon` |
-| `base0C` | cyan | `sayoriEye` | `rule` |
-| `base0D` | blue | `rule` | `skirt` |
+| `base0C` | cyan | `rule` | `rule` |
+| `base0D` | blue | `sayoriEye` | `skirt` |
 | `base0E` | magenta | `pink` | `plum` |
 | `base0F` | brown | `bowShadow` | `bowShadow` |
 
@@ -105,6 +105,8 @@ The two variants draw different accents because the palette is polarised: a colo
 - **no yellow and no orange exist on the site at all.** `base09` and `base0A` carry the two warm character colours, which on the light variant are tints (1.96:1 and 2.77:1) rather than accents
 - **there is exactly one red**, Sayori's bow, so the dark variant's `base08` sits at 2.77:1
 - `base0F` is the slot base16 itself calls rarely used, and it holds the darker of those two reds
+
+`base00` is not the only ground an accent lands on: a cursor line is `base01` and a selected row `base02`, so the dark variant reads those two as grounds rather than as colours of their own. `base01` takes `yuriShadow`, a lift off `ink` and nothing more, and `base0D` — the slot that colours directory names, links and function calls — takes the brighter of the two blues, because on a `yuri` selection the darker one sits at 1.49:1
 
 `ash` is the only palette entry no slot uses — a neutral grey wedged between two pinks in luminance, which would break the ramp it would otherwise fit into. A check enforces the rest: sixteen filled slots per variant, no colour spent twice, and a ramp that never turns back
 

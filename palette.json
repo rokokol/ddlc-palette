@@ -135,11 +135,11 @@
     }
   },
   "base16": {
-    "note": "Slots hold palette key names, not hex, so a re-measured colour reaches the schemes without editing this. base00-base07 run background to foreground and are ordered by luminance; no colour may fill two slots of one variant. The palette is polarised — a colour that reads on ink is a pastel on paper — so the two variants draw different accents, each picked to clear 3:1 against its own background. The site ships no yellow and no orange, so base09 and base0A carry the warm character colours in both",
+    "note": "Slots hold palette key names, not hex, so a re-measured colour reaches the schemes without editing this. base00-base07 run background to foreground and are ordered by luminance; no colour may fill two slots of one variant. The palette is polarised — a colour that reads on ink is a pastel on paper — so the two variants draw different accents, each picked to clear 3:1 against its own background. base01 is a lift off base00 rather than a tone of its own, because a cursor line is a ground the accents still have to be read on, and base0D goes to the brighter of the two blues for the same reason. The site ships no yellow and no orange, so base09 and base0A carry the warm character colours in both",
     "dark": {
       "base00": "ink",
-      "base01": "yuri",
-      "base02": "skirt",
+      "base01": "yuriShadow",
+      "base02": "yuri",
       "base03": "jacket",
       "base04": "natsuki",
       "base05": "blush",
@@ -149,8 +149,8 @@
       "base09": "sayori",
       "base0A": "monika",
       "base0B": "monikaEye",
-      "base0C": "sayoriEye",
-      "base0D": "rule",
+      "base0C": "rule",
+      "base0D": "sayoriEye",
       "base0E": "pink",
       "base0F": "bowShadow"
     },
