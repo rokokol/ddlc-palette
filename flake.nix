@@ -35,6 +35,16 @@
         # Strip the "#" — hyprland, hyprlock and mako want bare hex
         bare = builtins.mapAttrs (_: v: builtins.substring 1 (builtins.stringLength v) v) self.lib.palette;
 
+        # The one spelling that carries an alpha into GTK-CSS, which has no #RRGGBBAA. The alpha
+        # is a string on purpose: toString 0.9 in Nix renders "0.900000"
+        rgba = builtins.mapAttrs (
+          _: hex: a:
+          let
+            byte = i: toString (nixpkgs.lib.fromHexString (builtins.substring i 2 hex));
+          in
+          "rgba(${byte 1}, ${byte 3}, ${byte 5}, ${a})"
+        ) self.lib.palette;
+
         # { dark = { base00 = "#222222"; ... }; light = { ... }; } — the slots hold palette
         # key names in the JSON, so resolve them against the palette itself
         base16 = builtins.mapAttrs (_: slots: builtins.mapAttrs (_: name: self.lib.palette.${name}) slots) (

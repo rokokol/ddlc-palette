@@ -49,6 +49,7 @@ Three methods and no fourth: every entry is one `canonize.sh` re-reads, and a ch
 
   # inputs.ddlc-palette.lib.palette.plum       ->  "#BB5599"
   # inputs.ddlc-palette.lib.bare.plum          ->  "BB5599"   (hyprland, hyprlock, mako)
+  # inputs.ddlc-palette.lib.rgba.plum "0.55"   ->  "rgba(187, 85, 153, 0.55)"   (GTK-CSS, rofi)
   # inputs.ddlc-palette.lib.annotated          ->  grouped, with provenance
   # inputs.ddlc-palette.lib.base16.dark.base0D ->  "#6868B4"
 }
