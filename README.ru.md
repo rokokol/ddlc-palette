@@ -50,6 +50,7 @@
   # inputs.ddlc-palette.lib.palette.plum       ->  "#BB5599"
   # inputs.ddlc-palette.lib.bare.plum          ->  "BB5599"   (hyprland, hyprlock, mako)
   # inputs.ddlc-palette.lib.rgba.plum "0.55"   ->  "rgba(187, 85, 153, 0.55)"   (GTK-CSS, rofi)
+  # inputs.ddlc-palette.lib.argb.plum "0.55"   ->  "#8CBB5599"   (Qt/QML — альфа впереди)
   # inputs.ddlc-palette.lib.annotated          ->  по группам, с происхождением
   # inputs.ddlc-palette.lib.base16.dark.base0D ->  "#6868B4"
 }

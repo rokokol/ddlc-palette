@@ -35,14 +35,24 @@
         # Strip the "#" — hyprland, hyprlock and mako want bare hex
         bare = builtins.mapAttrs (_: v: builtins.substring 1 (builtins.stringLength v) v) self.lib.palette;
 
-        # The one spelling that carries an alpha into GTK-CSS, which has no #RRGGBBAA. The alpha
-        # is a string on purpose: toString 0.9 in Nix renders "0.900000"
+        # Translucent, in the two spellings that exist. Both take the alpha as a "0".."1" string,
+        # because toString 0.9 in Nix renders "0.900000":
+        #   rgba.dot "0.9" -> "rgba(255, 219, 240, 0.9)"   GTK-CSS and rofi, which have no #RRGGBBAA
+        #   argb.ink "0.25" -> "#40222222"                 Qt/QML, which spells the alpha first
         rgba = builtins.mapAttrs (
           _: hex: a:
           let
             byte = i: toString (nixpkgs.lib.fromHexString (builtins.substring i 2 hex));
           in
           "rgba(${byte 1}, ${byte 3}, ${byte 5}, ${a})"
+        ) self.lib.palette;
+
+        argb = builtins.mapAttrs (
+          _: hex: a:
+          let
+            byte = builtins.floor (builtins.fromJSON a * 255 + 0.5);
+          in
+          "#${nixpkgs.lib.fixedWidthString 2 "0" (nixpkgs.lib.toHexString byte)}${builtins.substring 1 6 hex}"
         ) self.lib.palette;
 
         # { dark = { base00 = "#222222"; ... }; light = { ... }; } — the slots hold palette
