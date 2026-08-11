@@ -14,6 +14,16 @@
 
 One source of truth for every DDLC-themed thing I build, so the same pink does not get eyeballed a fifth time. [`palette.json`](palette.json) is that source; everything in [`dist/`](dist) is generated from it and committed, so a consumer without Nix just reads a file
 
+## Contents
+
+- [Where the numbers come from](#where-the-numbers-come-from)
+- [Use it](#use-it)
+- [As a theme](#as-a-theme)
+- [Re-reading the site](#re-reading-the-site)
+- [Changing a colour](#changing-a-colour)
+- [Used by](#used-by)
+- [Credits](#credits)
+
 ## Where the numbers come from
 
 Not from a screenshot and not from taste — from [ddlc.moe](https://ddlc.moe/) itself:
