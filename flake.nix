@@ -146,6 +146,24 @@
               touch $out
             '';
 
+        # The generators are the repository as much as the JSON is, so their lint is a check like
+        # any other — CI then runs nothing that a local nix flake check does not
+        shell-is-clean =
+          pkgs.runCommand "shell-is-clean"
+            {
+              nativeBuildInputs = [
+                pkgs.shellcheck
+                pkgs.shfmt
+              ];
+            }
+            ''
+              cp ${./generate.sh} generate.sh
+              cp ${./canonize.sh} canonize.sh
+              shellcheck generate.sh canonize.sh
+              shfmt -i 2 -ci -d generate.sh canonize.sh
+              touch $out
+            '';
+
         # A scheme is only usable if every slot is filled, no colour is spent twice and the
         # background-to-foreground ramp really is one
         base16-is-sane = pkgs.runCommand "base16-is-sane" { nativeBuildInputs = [ pkgs.jq ]; } ''
@@ -195,6 +213,8 @@
             pkgs.curl
             pkgs.imagemagick
             pkgs.gawk
+            pkgs.shellcheck
+            pkgs.shfmt
           ];
         };
       });
