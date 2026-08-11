@@ -66,14 +66,19 @@
 | `dist/palette.env` | `plum=BB5599` — голый хекс, для конфигов, которые не терпят `#` |
 | `dist/palette.svg` | карточка со свотчами сверху |
 | `dist/base16-ddlc-dark.yaml` | схема base16, рядом лежит `-light.yaml` |
+| `dist/kitty-ddlc-dark.conf` | цвета kitty — подключается через `include` из `kitty.conf` |
+| `dist/btop-ddlc-dark.theme` | тема btop для `~/.config/btop/themes/` |
+| `dist/vim-ddlc-dark.vim` | colorscheme для vim и для nvim без плагина |
 
 ## Как тема
 
-`dist/base16-ddlc-{light,dark}.yaml` — схемы [base16](https://github.com/tinted-theming/home), так что сотни уже существующих шаблонов сами сделают из них конфиг для терминала, редактора или шелла; ничего привязанного к конкретному приложению здесь не лежит:
+`dist/base16-ddlc-{light,dark}.yaml` — схемы [base16](https://github.com/tinted-theming/home), так что сотни уже существующих шаблонов сами сделают из них конфиг для терминала, редактора или шелла:
 
 ```sh
 base16-builder --scheme dist/base16-ddlc-dark.yaml --template kitty
 ```
+
+Три из них уже лежат собранными — те самые три, которыми пользуюсь я. kitty повторяет [tinted-kitty](https://github.com/tinted-theming/tinted-kitty) слот в слот, кроме выделения: там оно стоит на `base03`, а `base05` на нём даёт здесь 1.65:1, поэтому выделение несёт `base02`. Для btop шаблона base16 нет нигде в апстриме, так что его раскладка — своя. Colorscheme для vim покрывает основные группы и требует `termguicolors` вместо cterm-фолбека на каждую — если нужны все группы до одной, есть [tinted-vim](https://github.com/tinted-theming/tinted-vim) и yaml выше
 
 Каждый слот называет ключ палитры, из которого взят, как этот ключ получен и откуда, так что схема читается сама по себе:
 

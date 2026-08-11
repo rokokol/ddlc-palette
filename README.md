@@ -66,14 +66,19 @@ Three methods and no fourth: every entry is one `canonize.sh` re-reads, and a ch
 | `dist/palette.env` | `plum=BB5599` — bare hex, for configs that reject `#` |
 | `dist/palette.svg` | the swatch card above |
 | `dist/base16-ddlc-dark.yaml` | a base16 scheme, and `-light.yaml` beside it |
+| `dist/kitty-ddlc-dark.conf` | kitty colours — `include` it from `kitty.conf` |
+| `dist/btop-ddlc-dark.theme` | a btop theme for `~/.config/btop/themes/` |
+| `dist/vim-ddlc-dark.vim` | a colorscheme for vim, and for nvim without a plugin |
 
 ## As a theme
 
-`dist/base16-ddlc-{light,dark}.yaml` are [base16](https://github.com/tinted-theming/home) schemes, so the hundreds of templates that already exist will turn them into a config for your terminal, editor or shell — nothing app-specific is kept in here:
+`dist/base16-ddlc-{light,dark}.yaml` are [base16](https://github.com/tinted-theming/home) schemes, so the hundreds of templates that already exist will turn them into a config for your terminal, editor or shell:
 
 ```sh
 base16-builder --scheme dist/base16-ddlc-dark.yaml --template kitty
 ```
+
+Three of them come rendered already, because they are the three I use. kitty follows [tinted-kitty](https://github.com/tinted-theming/tinted-kitty) slot for slot save for the selection: that template grounds it in `base03`, which leaves `base05` on it at 1.65:1 here, so `base02` carries it instead. btop has no base16 template anywhere upstream, so its mapping is this repository's own. The vim colorscheme covers the core groups and asks for `termguicolors` rather than carrying a cterm fallback for each one — for every group there is, use [tinted-vim](https://github.com/tinted-theming/tinted-vim) against the yaml
 
 Every slot names the palette key it came from, how that key was arrived at and its provenance, so a scheme is readable on its own:
 
