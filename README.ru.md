@@ -52,7 +52,8 @@
   # inputs.ddlc-palette.lib.rgba.plum "0.55"   ->  "rgba(187, 85, 153, 0.55)"   (GTK-CSS, rofi)
   # inputs.ddlc-palette.lib.argb.plum "0.55"   ->  "#8CBB5599"   (Qt/QML — альфа впереди)
   # inputs.ddlc-palette.lib.annotated          ->  по группам, с происхождением
-  # inputs.ddlc-palette.lib.base16.dark.base0D ->  "#6868B4"
+  # inputs.ddlc-palette.lib.base16.dark.base0D ->  "#72D0FA"
+  # inputs.ddlc-palette.lib.dist.kitty.dark    ->  путь — readFile или source =
 }
 ```
 

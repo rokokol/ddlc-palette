@@ -52,7 +52,8 @@ Three methods and no fourth: every entry is one `canonize.sh` re-reads, and a ch
   # inputs.ddlc-palette.lib.rgba.plum "0.55"   ->  "rgba(187, 85, 153, 0.55)"   (GTK-CSS, rofi)
   # inputs.ddlc-palette.lib.argb.plum "0.55"   ->  "#8CBB5599"   (Qt/QML — alpha first)
   # inputs.ddlc-palette.lib.annotated          ->  grouped, with provenance
-  # inputs.ddlc-palette.lib.base16.dark.base0D ->  "#6868B4"
+  # inputs.ddlc-palette.lib.base16.dark.base0D ->  "#72D0FA"
+  # inputs.ddlc-palette.lib.dist.kitty.dark    ->  a path — readFile it, or source = it
 }
 ```
 
