@@ -128,12 +128,30 @@ for V in light dark; do
     echo "inactive_tab_foreground $(s base04)"
     echo "tab_bar_background $(s base01)"
     echo
-    for pair in "0 base00" "1 base08" "2 base0B" "3 base0A" "4 base0D" "5 base0E" "6 base0C" "7 base05" \
-      "8 base02" "9 base08" "10 base0B" "11 base0A" "12 base0D" "13 base0E" "14 base0C" "15 base07" \
-      "16 base09" "17 base0F" "18 base01" "19 base02" "20 base04" "21 base06"; do
-      set -- $pair
-      echo "color$1 $(s "$2")"
-    done
+    while read -r n slot_name; do echo "color$n $(s "$slot_name")"; done <<'ANSI'
+0 base00
+1 base08
+2 base0B
+3 base0A
+4 base0D
+5 base0E
+6 base0C
+7 base05
+8 base02
+9 base08
+10 base0B
+11 base0A
+12 base0D
+13 base0E
+14 base0C
+15 base07
+16 base09
+17 base0F
+18 base01
+19 base02
+20 base04
+21 base06
+ANSI
   } >"$out/kitty-ddlc-$V.conf"
 
   # btop has no base16 template anywhere upstream, so this mapping is ours. Meters that carry no
@@ -163,12 +181,18 @@ for V in light dark; do
       echo "theme[${gradient}_mid]=\"$(s base0A)\""
       echo "theme[${gradient}_end]=\"$(s base08)\""
     done
-    for pair in "free base0B" "cached base0C" "available base0A" "used base08" "download base0D" "upload base0E"; do
-      set -- $pair
-      echo "theme[$1_start]=\"$(s "$2")\""
-      echo "theme[$1_mid]=\"\""
-      echo "theme[$1_end]=\"\""
-    done
+    while read -r meter slot_name; do
+      echo "theme[${meter}_start]=\"$(s "$slot_name")\""
+      echo "theme[${meter}_mid]=\"\""
+      echo "theme[${meter}_end]=\"\""
+    done <<'METERS'
+free base0B
+cached base0C
+available base0A
+used base08
+download base0D
+upload base0E
+METERS
   } >"$out/btop-ddlc-$V.theme"
 
   # A colorscheme for plain vim and for nvim without a plugin. tinted-vim renders the same slots
