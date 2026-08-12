@@ -8,8 +8,6 @@
 
 <img src="dist/palette.svg" alt="the palette" width="680"/>
 
-[Русский](README.ru.md)
-
 </div>
 
 One source of truth for every DDLC-themed thing I build, so the same pink does not get eyeballed a fifth time. [`palette.json`](palette.json) is that source; everything in [`dist/`](dist) is generated from it and committed, so a consumer without Nix just reads a file
