@@ -63,7 +63,7 @@
   # inputs.ddlc-palette.lib.argb.plum "0.55"   ->  "#8CBB5599"   (Qt/QML — альфа впереди)
   # inputs.ddlc-palette.lib.annotated          ->  по группам, с происхождением
   # inputs.ddlc-palette.lib.base16.dark.base0D ->  "#72D0FA"
-  # inputs.ddlc-palette.lib.dist.kitty.dark    ->  путь — readFile или source =
+  # inputs.ddlc-palette.lib.dist.base16.dark   ->  путь — readFile или source =
 }
 ```
 
@@ -72,14 +72,10 @@
 | файл | вид |
 | --- | --- |
 | `dist/palette.css` | `:root { --ddlc-plum: #BB5599; … }` |
-| `dist/palette.nix` | `{ plum = "#BB5599"; … }` |
 | `dist/palette.sh` | `DDLC_PLUM='#BB5599'` — сорсится |
 | `dist/palette.env` | `plum=BB5599` — голый хекс, для конфигов, которые не терпят `#` |
 | `dist/palette.svg` | карточка со свотчами сверху |
 | `dist/base16-ddlc-dark.yaml` | схема base16, рядом лежит `-light.yaml` |
-| `dist/kitty-ddlc-dark.conf` | цвета kitty — подключается через `include` из `kitty.conf` |
-| `dist/btop-ddlc-dark.theme` | тема btop для `~/.config/btop/themes/` |
-| `dist/vim-ddlc-dark.vim` | colorscheme для vim и для nvim без плагина |
 
 ## Как тема
 
@@ -89,7 +85,7 @@
 base16-builder --scheme dist/base16-ddlc-dark.yaml --template kitty
 ```
 
-Три из них уже лежат собранными — те самые три, которыми пользуюсь я. kitty повторяет [tinted-kitty](https://github.com/tinted-theming/tinted-kitty) слот в слот, кроме выделения: там оно стоит на `base03`, а `base05` на нём даёт здесь 1.65:1, поэтому выделение несёт `base02`. Для btop шаблона base16 нет нигде в апстриме, так что его раскладка — своя. Colorscheme для vim покрывает основные группы и требует `termguicolors` вместо cterm-фолбека на каждую — если нужны все группы до одной, есть [tinted-vim](https://github.com/tinted-theming/tinted-vim) и yaml выше
+Три приложения вместо этого получили собственную тему, потому что шаблон рендерит конфиг, а не плагин: [ddlc-terminal-themes](https://github.com/rokokol/ddlc-terminal-themes) раскладывает эти схемы в цвета kitty и тему btop, а [ddlc.nvim](https://github.com/rokokol/ddlc.nvim) — настоящая цветовая схема neovim с treesitter и LSP за спиной. Слоты у них те же, что называет этот файл; отдельные репозитории они потому, что разложить цвет по приложению — работа не та же, что его измерить
 
 Каждый слот называет ключ палитры, из которого взят, как этот ключ получен и откуда, так что схема читается сама по себе:
 
@@ -156,8 +152,13 @@ jacket=$(sprites | pick 'sat < 0.25 && lum > 120 && lum < 200 && r > b')
 
 ## Кто использует
 
+Каждая из них — палитра в одном приложении, так что заодно это и взгляд на то, что она делает:
+
+- [ddlc.nvim](https://github.com/rokokol/ddlc.nvim) — редактор
+- [ddlc-terminal-themes](https://github.com/rokokol/ddlc-terminal-themes) — kitty и btop
+- [ddlc-rofi-theme](https://github.com/rokokol/ddlc-rofi-theme) — лаунчер
 - [ddlc-sddm-theme](https://github.com/rokokol/ddlc-sddm-theme) — экран логина
-- дальше — то, что будет вынесено из [rokokol/huix](https://github.com/rokokol/huix): hyprlock, waybar, mako, rofi
+- дальше — то, что будет вынесено из [rokokol/huix](https://github.com/rokokol/huix): hyprlock, waybar, mako
 
 ## Благодарности
 

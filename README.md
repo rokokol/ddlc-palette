@@ -63,7 +63,7 @@ Three methods and no fourth: every entry is one `canonize.sh` re-reads, and a ch
   # inputs.ddlc-palette.lib.argb.plum "0.55"   ->  "#8CBB5599"   (Qt/QML — alpha first)
   # inputs.ddlc-palette.lib.annotated          ->  grouped, with provenance
   # inputs.ddlc-palette.lib.base16.dark.base0D ->  "#72D0FA"
-  # inputs.ddlc-palette.lib.dist.kitty.dark    ->  a path — readFile it, or source = it
+  # inputs.ddlc-palette.lib.dist.base16.dark   ->  a path — readFile it, or source = it
 }
 ```
 
@@ -72,14 +72,10 @@ Three methods and no fourth: every entry is one `canonize.sh` re-reads, and a ch
 | file | shape |
 | --- | --- |
 | `dist/palette.css` | `:root { --ddlc-plum: #BB5599; … }` |
-| `dist/palette.nix` | `{ plum = "#BB5599"; … }` |
 | `dist/palette.sh` | `DDLC_PLUM='#BB5599'` — source it |
 | `dist/palette.env` | `plum=BB5599` — bare hex, for configs that reject `#` |
 | `dist/palette.svg` | the swatch card above |
 | `dist/base16-ddlc-dark.yaml` | a base16 scheme, and `-light.yaml` beside it |
-| `dist/kitty-ddlc-dark.conf` | kitty colours — `include` it from `kitty.conf` |
-| `dist/btop-ddlc-dark.theme` | a btop theme for `~/.config/btop/themes/` |
-| `dist/vim-ddlc-dark.vim` | a colorscheme for vim, and for nvim without a plugin |
 
 ## As a theme
 
@@ -89,7 +85,7 @@ Three methods and no fourth: every entry is one `canonize.sh` re-reads, and a ch
 base16-builder --scheme dist/base16-ddlc-dark.yaml --template kitty
 ```
 
-Three of them come rendered already, because they are the three I use. kitty follows [tinted-kitty](https://github.com/tinted-theming/tinted-kitty) slot for slot save for the selection: that template grounds it in `base03`, which leaves `base05` on it at 1.65:1 here, so `base02` carries it instead. btop has no base16 template anywhere upstream, so its mapping is this repository's own. The vim colorscheme covers the core groups and asks for `termguicolors` rather than carrying a cterm fallback for each one — for every group there is, use [tinted-vim](https://github.com/tinted-theming/tinted-vim) against the yaml
+Three applications get a theme of their own instead, because a template renders a config and not a plugin: [ddlc-terminal-themes](https://github.com/rokokol/ddlc-terminal-themes) reads these schemes into kitty colours and a btop theme, and [ddlc.nvim](https://github.com/rokokol/ddlc.nvim) is a real neovim colorscheme with treesitter and LSP behind it. They render the same slots this file names — what makes them separate repositories is that mapping a colour onto an application is a different job from measuring it
 
 Every slot names the palette key it came from, how that key was arrived at and its provenance, so a scheme is readable on its own:
 
@@ -156,8 +152,13 @@ Commit both. CI rebuilds `dist/` and diffs it against what you committed, so the
 
 ## Used by
 
+Each of these is the palette in one application, so they double as a look at what it does:
+
+- [ddlc.nvim](https://github.com/rokokol/ddlc.nvim) — the editor
+- [ddlc-terminal-themes](https://github.com/rokokol/ddlc-terminal-themes) — kitty and btop
+- [ddlc-rofi-theme](https://github.com/rokokol/ddlc-rofi-theme) — the launcher
 - [ddlc-sddm-theme](https://github.com/rokokol/ddlc-sddm-theme) — the login screen
-- more of [rokokol/huix](https://github.com/rokokol/huix) as it gets split out: hyprlock, waybar, mako, rofi
+- more of [rokokol/huix](https://github.com/rokokol/huix) as it gets split out: hyprlock, waybar, mako
 
 ## Credits
 

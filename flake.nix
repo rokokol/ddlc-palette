@@ -61,30 +61,17 @@
           builtins.removeAttrs raw.base16 [ "note" ]
         );
 
-        # The rendered configs as paths, so a consumer names a format instead of a filename and
-        # copies one file into the store rather than the whole repository. There is deliberately
-        # no module behind them: readFile or a source = is the whole integration
-        #   kitty.extraConfig = builtins.readFile ddlc-palette.lib.dist.kitty.dark;
+        # The rendered files as paths, so a consumer names a format instead of a filename and
+        # copies one file into the store rather than the whole repository. Application themes
+        # are not here — they live in their own repositories and read these schemes
+        #   ddlc-terminal-themes for kitty and btop, ddlc.nvim for the editor
         dist = {
           base16 = {
             light = ./dist/base16-ddlc-light.yaml;
             dark = ./dist/base16-ddlc-dark.yaml;
           };
-          kitty = {
-            light = ./dist/kitty-ddlc-light.conf;
-            dark = ./dist/kitty-ddlc-dark.conf;
-          };
-          btop = {
-            light = ./dist/btop-ddlc-light.theme;
-            dark = ./dist/btop-ddlc-dark.theme;
-          };
-          vim = {
-            light = ./dist/vim-ddlc-light.vim;
-            dark = ./dist/vim-ddlc-dark.vim;
-          };
           css = ./dist/palette.css;
           env = ./dist/palette.env;
-          nix = ./dist/palette.nix;
           sh = ./dist/palette.sh;
           svg = ./dist/palette.svg;
         };
