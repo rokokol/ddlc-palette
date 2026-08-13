@@ -98,6 +98,11 @@
       });
 
       # dist/ is committed so non-Nix consumers can just read a file; this proves it is current
+      # For a consumer who reaches for pkgs rather than this flake's packages directly
+      overlays.default = final: _prev: {
+        ddlc-palette = self.packages.${final.stdenv.hostPlatform.system}.default;
+      };
+
       checks = forAllSystems (pkgs: {
         dist-is-current = pkgs.runCommand "dist-is-current" { nativeBuildInputs = [ pkgs.jq ]; } ''
           cp -r ${./.}/. work && chmod -R +w work
