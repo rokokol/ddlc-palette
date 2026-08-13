@@ -26,7 +26,7 @@ One source of truth for every DDLC-themed thing I build, so the same pink does n
 
 Not from a screenshot and not from taste — from [ddlc.moe](https://ddlc.moe/) itself:
 
-| | what was read |
+| group | what was read |
 | --- | --- |
 | **interface** | `main.css` — the divider, the button and its hover, the link colour, the dark footer |
 | **dot**, **paper** | `images/tilebg.png`, the site's own background tile: 200×200, dots of radius 40 on a half-step grid, `#FFDBF0` on white |
@@ -91,7 +91,7 @@ Every slot names the palette key it came from, how that key was arrived at and i
 base02: "#4B669E" # skirt (mode) — the sticker_?.png sprites, the pleated skirt
 ```
 
-| slot | | dark | light |
+| slot | role | dark | light |
 | --- | --- | --- | --- |
 | `base00` | background | `ink` | `paper` |
 | `base01` | lighter background | `yuriShadow` | `dot` |
