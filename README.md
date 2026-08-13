@@ -23,7 +23,9 @@ One source of truth for every DDLC-themed thing I build, so the same pink does n
 - [Re-reading the site](#re-reading-the-site)
 - [Changing a colour](#changing-a-colour)
 - [Used by](#used-by)
-- [Credits](#credits)
+- [Tests](#tests)
+- [Layout](#layout)
+- [License](#license)
 
 ## Where the numbers come from
 
@@ -159,8 +161,26 @@ Each of these is the palette in one application, so they double as a look at wha
 - [ddlc-terminal-themes](https://github.com/rokokol/ddlc-terminal-themes) — kitty and btop
 - [ddlc-rofi-theme](https://github.com/rokokol/ddlc-rofi-theme) — the launcher
 - [ddlc-sddm-theme](https://github.com/rokokol/ddlc-sddm-theme) — the login screen
-- more of [rokokol/huix](https://github.com/rokokol/huix) as it gets split out: hyprlock, waybar, mako
+- [ddlc-hyprlock](https://github.com/rokokol/ddlc-hyprlock) — the lock screen
+- more of [rokokol/huix](https://github.com/rokokol/huix) as it gets split out: waybar, mako
 
-## Credits
+## Tests
+
+```sh
+nix flake check
+```
+
+Four things, and provenance is the one this repository exists for: `dist/` is exactly what `generate.sh` writes today; every colour carries `hex`, `where`, `source` and one of the three `method`s, so an entry nobody can retrace is a failure rather than a style lapse; each base16 variant fills all sixteen slots, spends no colour twice and keeps its background-to-foreground ramp going one way; and both generators pass shellcheck and shfmt
+
+## Layout
+
+```
+palette.json   the source: every colour, where it was measured and by which method
+generate.sh    palette.json -> dist/, needs jq
+canonize.sh    re-reads ddlc.moe and rewrites palette.json in place
+dist/          the rendered forms, committed for consumers without Nix
+```
+
+## License
 
 Doki Doki Literature Club is by [Team Salvato](https://teamsalvato.com/), and so are the colours as they appear on their site — this repository only writes them down. Unaffiliated with and not endorsed by them. The code is MIT
