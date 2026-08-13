@@ -4,7 +4,10 @@
 
 **The Doki Doki Literature Club colours, measured off the official site** （´ω｀♡%）
 
-![source](https://img.shields.io/badge/source-ddlc.moe-FF80C0?style=flat) ![Nix](https://img.shields.io/badge/Nix-flake-7EBAE4?style=flat&logo=nixos&logoColor=white) [![license](https://img.shields.io/badge/code-MIT-3DA639?style=flat)](LICENSE) [![check](https://github.com/rokokol/ddlc-palette/actions/workflows/check.yml/badge.svg)](https://github.com/rokokol/ddlc-palette/actions/workflows/check.yml)
+![source](https://img.shields.io/badge/source-ddlc.moe-FF80C0?style=flat)
+![Nix](https://img.shields.io/badge/Nix-flake-7EBAE4?style=flat&logo=nixos&logoColor=white)
+[![license](https://img.shields.io/badge/code-MIT-3DA639?style=flat)](LICENSE)
+[![build](https://github.com/rokokol/ddlc-palette/actions/workflows/build.yml/badge.svg)](https://github.com/rokokol/ddlc-palette/actions/workflows/build.yml)
 
 <img src="dist/palette.svg" alt="the palette" width="680"/>
 

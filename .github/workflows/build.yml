@@ -1,0 +1,29 @@
+name: build
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  nix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: cachix/install-nix-action@v31
+      - run: nix build --no-write-lock-file
+      # dist-is-current, palette-is-annotated, base16-is-sane, shell-is-clean
+      - run: nix flake check --no-write-lock-file
+      # The colours are consumed as lib, not as files, so the attrset itself is the artifact
+      - name: the palette evaluates
+        run: nix eval --json .#lib.palette
+      - run: nix fmt -- --ci
+
+  shell:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: cachix/install-nix-action@v31
+      - run: nix run nixpkgs#shellcheck -- generate.sh canonize.sh
+      - run: nix run nixpkgs#shfmt -- -d -i 2 -ci generate.sh canonize.sh
