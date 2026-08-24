@@ -3,6 +3,10 @@ name: update-lock
 # nixpkgs in flake.lock ages on its own and nothing else here moves it: dependabot watches
 # only the uses: pins. This bumps it weekly, runs the very same checks a push runs — build.yml
 # itself, not a copy of its commands — and lands the bump only if they pass
+#
+# 05:00 is the first wave of the family cascade and nothing else may take this slot: every repo
+# that pins the palette bumps its ddlc-palette input at 06:00, and huix takes the whole family
+# at 07:00. Moving this later means the rest of the week's bumps carry yesterday's palette
 on:
   schedule:
     - cron: "0 5 * * 1"
