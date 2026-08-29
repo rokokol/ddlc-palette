@@ -4,6 +4,19 @@ Kept in the shape of [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), v
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-08-29
+
+No colour moved: every hex is the one 1.0.0 shipped
+
+### Added
+
+- `update-lock.yml` bumps the nixpkgs pin weekly and lands it only if the checks pass. It calls `build.yml` through `workflow_call` rather than repeating its commands, so the two cannot drift; the bump goes to a temporary branch first, because a called workflow can only check out a ref that exists, and master fast-forwards onto it once green. A red run leaves the branch alone with the bump on it
+- `CONTRIBUTING.md` states the AI disclosure policy the log already followed, and the one command a pull request has to pass
+
+### Changed
+
+- the weekly canonize run says why it opens at 05:00: consumers bump this input at 06:00 and huix takes the whole family at 07:00, so a later slot would serve them yesterday's colours for a week
+
 ## [1.0.0] - 2026-08-13
 
 Split out of [rokokol/huix](https://github.com/rokokol/huix), where the colours were literals scattered across the configuration
