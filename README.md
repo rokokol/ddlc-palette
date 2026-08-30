@@ -25,7 +25,6 @@ One source of truth for every DDLC-themed thing I build, so the same pink does n
 - [Used by](#used-by)
 - [Tests](#tests)
 - [Layout](#layout)
-- [License](#license)
 
 ## Where the numbers come from
 
@@ -180,7 +179,3 @@ generate.sh    palette.json -> dist/, needs jq
 canonize.sh    re-reads ddlc.moe and rewrites palette.json in place
 dist/          the rendered forms, committed for consumers without Nix
 ```
-
-## License
-
-Doki Doki Literature Club is by [Team Salvato](https://teamsalvato.com/), and so are the colours as they appear on their site — this repository only writes them down. Unaffiliated with and not endorsed by them. The code is MIT
