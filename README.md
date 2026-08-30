@@ -6,6 +6,7 @@
 
 ![source](https://img.shields.io/badge/source-ddlc.moe-FF80C0?style=flat)
 ![Nix](https://img.shields.io/badge/Nix-flake-7EBAE4?style=flat&logo=nixos&logoColor=white)
+[![assets](https://img.shields.io/badge/assets-Team_Salvato-FF80C0?style=flat)](ASSETS.md)
 [![license](https://img.shields.io/badge/code-MIT-3DA639?style=flat)](LICENSE)
 [![build](https://github.com/rokokol/ddlc-palette/actions/workflows/build.yml/badge.svg)](https://github.com/rokokol/ddlc-palette/actions/workflows/build.yml)
 
