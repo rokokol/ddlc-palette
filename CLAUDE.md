@@ -4,7 +4,9 @@
 
 The colours every DDLC-themed thing I build reads, measured off [ddlc.moe](https://ddlc.moe) rather than eyeballed. `palette.json` is the source; everything in `dist/` is generated from it by `generate.sh` and committed, so a consumer without Nix reads a file. `canonize.sh` re-measures the site and rewrites `palette.json` in place — a weekly workflow runs it and opens a pull request when the site drifts
 
-Consumers take `lib.palette`, `lib.bare`, `lib.rgba`, `lib.base16` and `lib.dist`: `ddlc-sddm-theme`, `ddlc-rofi-theme`, `ddlc-terminal-themes`, `ddlc.nvim`, `ddlc-hyprlock`, and `rokokol/huix` itself, which passes them down as `commonArgs.palette`
+Consumers take `lib.palette`, `lib.bare`, `lib.rgba`, `lib.base16` and `lib.dist`: `ddlc-sddm-theme`, `ddlc-rofi-theme`, `ddlc-themes`, `ddlc.nvim`, `ddlc-hyprlock`, and `rokokol/huix` itself, which passes them down as `commonArgs.palette`
+
+`VERSION` is the one source of version: the package name and `lib.version` read it, CI asserts `CHANGELOG.md` has a matching heading
 
 ## Build / check
 

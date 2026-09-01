@@ -88,7 +88,7 @@ Three methods and no fourth: every entry is one `canonize.sh` re-reads, and a ch
 base16-builder --scheme dist/base16-ddlc-dark.yaml --template kitty
 ```
 
-Three applications get a theme of their own instead, because a template renders a config and not a plugin: [ddlc-terminal-themes](https://github.com/rokokol/ddlc-terminal-themes) reads these schemes into kitty colours and a btop theme, and [ddlc.nvim](https://github.com/rokokol/ddlc.nvim) is a real neovim colorscheme with treesitter and LSP behind it. They render the same slots this file names — what makes them separate repositories is that mapping a colour onto an application is a different job from measuring it
+Three applications get a theme of their own instead, because a template renders a config and not a plugin: [ddlc-themes](https://github.com/rokokol/ddlc-themes) reads these schemes into kitty colours and a btop theme (and speaks the flat palette for matplotlib, Claude Code and opencode), and [ddlc.nvim](https://github.com/rokokol/ddlc.nvim) is a real neovim colorscheme with treesitter and LSP behind it. They render the same slots this file names — what makes them separate repositories is that mapping a colour onto an application is a different job from measuring it
 
 Every slot names the palette key it came from, how that key was arrived at and its provenance, so a scheme is readable on its own:
 
@@ -158,7 +158,7 @@ Commit both. CI rebuilds `dist/` and diffs it against what you committed, so the
 Each of these is the palette in one application, so they double as a look at what it does:
 
 - [ddlc.nvim](https://github.com/rokokol/ddlc.nvim) — the editor
-- [ddlc-terminal-themes](https://github.com/rokokol/ddlc-terminal-themes) — kitty and btop
+- [ddlc-themes](https://github.com/rokokol/ddlc-themes) — kitty, btop, matplotlib, Claude Code, opencode and a report stylesheet
 - [ddlc-rofi-theme](https://github.com/rokokol/ddlc-rofi-theme) — the launcher
 - [ddlc-sddm-theme](https://github.com/rokokol/ddlc-sddm-theme) — the login screen
 - [ddlc-hyprlock](https://github.com/rokokol/ddlc-hyprlock) — the lock screen

@@ -14,6 +14,9 @@ on:
         required: false
         default: ""
 
+permissions:
+  contents: read
+
 jobs:
   nix:
     runs-on: ubuntu-latest
@@ -22,14 +25,25 @@ jobs:
         with:
           ref: ${{ inputs.ref }}
       - uses: cachix/install-nix-action@v31
+
+      - name: VERSION matches CHANGELOG
+        run: |
+          ver=$(cat VERSION)
+          grep -qF "## [$ver]" CHANGELOG.md || {
+            echo "VERSION says $ver but CHANGELOG.md has no ## [$ver] heading" >&2
+            exit 1
+          }
+
       - run: nix build --no-write-lock-file
-      # dist-is-current, palette-is-annotated, base16-is-sane, shell-is-clean
+      # dist-is-current, palette-is-annotated, base16-is-sane, scripts-lint
       - run: nix flake check --no-write-lock-file
       # The colours are consumed as lib, not as files, so the attrset itself is the artifact
       - name: the palette evaluates
         run: nix eval --json .#lib.palette
       - run: nix fmt -- --ci
 
+  # The one file list lives in the flake's scripts-lint check — this job is a fast,
+  # separately-named status for it, not a second copy of the commands
   shell:
     runs-on: ubuntu-latest
     steps:
@@ -37,5 +51,13 @@ jobs:
         with:
           ref: ${{ inputs.ref }}
       - uses: cachix/install-nix-action@v31
-      - run: nix develop --no-write-lock-file --command shellcheck generate.sh canonize.sh
-      - run: nix develop --no-write-lock-file --command shfmt -d -i 2 -ci generate.sh canonize.sh
+      # nix run/shell nixpkgs#tool is a mirror-fate lookup — whatever nixpkgs the runner
+      # resolves today decides the job. Tools a workflow needs live in the flake's dev
+      # shell, pinned by the lock, reached with nix develop
+      - name: CI tools come from the lock, not the registry
+        run: |
+          if grep -rEn 'nix (run|shell) nixpkgs#' .github/workflows; then
+            echo "unpinned registry lookup in a workflow — pin the tool in the flake's dev shell and use nix develop" >&2
+            exit 1
+          fi
+      - run: nix build --no-write-lock-file .#checks.x86_64-linux.scripts-lint

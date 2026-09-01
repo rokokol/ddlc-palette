@@ -4,6 +4,15 @@ Kept in the shape of [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), v
 
 ## [Unreleased]
 
+### Added
+
+- `VERSION` at the repo root as the one source of version, exposed as `lib.version` and in the package name; CI asserts the changelog heading matches
+
+### Changed
+
+- the family CI shape from [huix-standard](https://github.com/rokokol/huix-standard): the shell lint's one file list lives in the flake's `scripts-lint` check (né `shell-is-clean`) and CI builds that check instead of repeating the commands; a guard step fails any workflow reaching for unpinned `nix run|shell nixpkgs#…`
+- docs follow the `ddlc-terminal-themes` → [`ddlc-themes`](https://github.com/rokokol/ddlc-themes) rename, which also stopped being terminal-only
+
 ## [1.1.0] - 2026-08-29
 
 No colour moved: every hex is the one 1.0.0 shipped

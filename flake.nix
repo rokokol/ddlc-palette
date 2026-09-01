@@ -19,10 +19,18 @@
         "meta"
         "base16"
       ];
+      # The one source of version: VERSION at the repo root, asserted against CHANGELOG by CI
+      version = nixpkgs.lib.fileContents (
+        builtins.path {
+          name = "VERSION";
+          path = ./VERSION;
+        }
+      );
     in
     {
       # The palette itself: { paper = "#FFFFFF"; ... } — one flat attrset, names unique across groups
       lib = {
+        inherit version;
         palette = builtins.foldl' (acc: g: acc // builtins.mapAttrs (_: v: v.hex) groups.${g}) { } (
           builtins.attrNames groups
         );
@@ -64,7 +72,7 @@
         # The rendered files as paths, so a consumer names a format instead of a filename and
         # copies one file into the store rather than the whole repository. Application themes
         # are not here — they live in their own repositories and read these schemes
-        #   ddlc-terminal-themes for kitty and btop, ddlc.nvim for the editor
+        #   ddlc-themes for kitty, btop and friends, ddlc.nvim for the editor
         dist = {
           base16 = {
             light = ./dist/base16-ddlc-light.yaml;
@@ -79,7 +87,7 @@
 
       packages = forAllSystems (pkgs: {
         default =
-          pkgs.runCommand "ddlc-palette"
+          pkgs.runCommand "ddlc-palette-${version}"
             {
               meta = {
                 description = "The Doki Doki Literature Club palette, measured off the official site";
@@ -138,10 +146,10 @@
               touch $out
             '';
 
-        # The generators are the repository as much as the JSON is, so their lint is a check like
-        # any other — CI then runs nothing that a local nix flake check does not
-        shell-is-clean =
-          pkgs.runCommand "shell-is-clean"
+        # The one shell file list lives here and nowhere else: CI's shell job is a fast
+        # named status for this check, not a second copy of the commands
+        scripts-lint =
+          pkgs.runCommand "scripts-lint"
             {
               nativeBuildInputs = [
                 pkgs.shellcheck
