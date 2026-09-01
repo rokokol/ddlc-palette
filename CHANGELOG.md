@@ -2,7 +2,7 @@
 
 Kept in the shape of [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versioned by [semver](https://semver.org/spec/v2.0.0.html). A colour moving is a breaking change: everything downstream renders differently
 
-## [Unreleased]
+## [1.2.0] - 2026-09-01
 
 ### Added
 
