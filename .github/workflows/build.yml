@@ -26,13 +26,10 @@ jobs:
           ref: ${{ inputs.ref }}
       - uses: cachix/install-nix-action@v31
 
+      # The versioning skill's checker, vendored: VERSION against CHANGELOG, and the
+      # changelog's shape, from one file rather than an inline grep that checked half of it
       - name: VERSION matches CHANGELOG
-        run: |
-          ver=$(cat VERSION)
-          grep -qF "## [$ver]" CHANGELOG.md || {
-            echo "VERSION says $ver but CHANGELOG.md has no ## [$ver] heading" >&2
-            exit 1
-          }
+        run: ./check-changelog.sh CHANGELOG.md
 
       - run: nix build --no-write-lock-file
       # dist-is-current, palette-is-annotated, base16-is-sane, scripts-lint
@@ -54,6 +51,10 @@ jobs:
       # nix run/shell nixpkgs#tool is a mirror-fate lookup — whatever nixpkgs the runner
       # resolves today decides the job. Tools a workflow needs live in the flake's dev
       # shell, pinned by the lock, reached with nix develop
+      # The pin guard below is vendored: a copy edited here instead of at its source fails
+      # this step by name, before it can run as anything but the source's own text
+      - name: vendored copies are byte-equal to their source
+        run: ./vendor-sync.sh check
       - name: CI tools come from the lock, not the registry
         run: ./check-pins.sh
       - run: nix build --no-write-lock-file .#checks.x86_64-linux.scripts-lint
