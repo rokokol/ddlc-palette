@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 # Decide the machine-checkable half of a changelog. Takes ANY changelog, so it is worth
 # more than a review comment: drop it into a repository's own gate and the rules stop
-# depending on somebody remembering them.
+# depending on somebody remembering them. Another repository takes it through the ci
+# skill's vendoring cascade (references/bump-cascade.md in https://github.com/rokokol/ci-skill)
+# and never edits its copy in place: a fix belongs in rokokol/versioning-skill.
 #
 #   check-changelog.sh [-v VERSION-FILE | -n] [CHANGELOG]
 #
