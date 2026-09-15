@@ -27,9 +27,12 @@ jobs:
       - uses: cachix/install-nix-action@v31
 
       # The versioning skill's checker, vendored: VERSION against CHANGELOG, and the
-      # changelog's shape, from one file rather than an inline grep that checked half of it
+      # changelog's shape, from one file rather than an inline grep that checked half of it.
+      # Pinned with -t: without it a changelog moved wholesale to another template stays
+      # green, which is the versioning skill's PITFALLS.md
       - name: VERSION matches CHANGELOG
-        run: ./check-changelog.sh CHANGELOG.md
+        run: |
+          ./check-changelog.sh -t '## [{version}] - {date}' CHANGELOG.md
 
       - run: nix build --no-write-lock-file
       # dist-is-current, palette-is-annotated, base16-is-sane, scripts-lint
