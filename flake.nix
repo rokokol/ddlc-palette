@@ -38,7 +38,8 @@
       };
     in
     {
-      # The palette itself: { paper = "#FFFFFF"; ... } — one flat attrset, names unique across groups
+      # The palette itself: { paper = "#FFFFFF"; ... } — one flat attrset, with names
+      # unique across groups
       lib = {
         inherit version;
         palette = builtins.foldl' (acc: g: acc // builtins.mapAttrs (_: v: v.hex) groups.${g}) { } (
