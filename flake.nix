@@ -26,6 +26,16 @@
           path = ./VERSION;
         }
       );
+
+      # Each piece isolated, so an edit to a document rebuilds nothing
+      generator = builtins.path {
+        name = "generate.sh";
+        path = ./generate.sh;
+      };
+      paletteJson = builtins.path {
+        name = "palette.json";
+        path = ./palette.json;
+      };
     in
     {
       # The palette itself: { paper = "#FFFFFF"; ... } — one flat attrset, names unique across groups
@@ -38,7 +48,7 @@
         # The same, grouped and with the provenance kept
         annotated = groups;
 
-        meta = raw.meta;
+        inherit (raw) meta;
 
         # Strip the "#" — hyprland, hyprlock and mako want bare hex
         bare = builtins.mapAttrs (_: v: builtins.substring 1 (builtins.stringLength v) v) self.lib.palette;
@@ -112,9 +122,14 @@
       };
 
       checks = forAllSystems (pkgs: {
-        dist-is-current = pkgs.runCommand "dist-is-current" { nativeBuildInputs = [ pkgs.jq ]; } ''
-          cp -r ${./.}/. work && chmod -R +w work
-          cd work && bash generate.sh >/dev/null
+        # The two files generate.sh reads, and no more. `${./.}` here tied this check to the
+        # whole repository: an edit to the README changed its hash and rebuilt it.
+        # generate.sh finds palette.json beside itself, so the two land in one directory
+        dist-is-current = pkgs.runCommand "dist-is-current" { nativeBuildInputs = with pkgs; [ jq ]; } ''
+          mkdir work && cd work
+          install -m755 ${generator} generate.sh
+          cp ${paletteJson} palette.json
+          bash generate.sh >/dev/null
           diff -r ${./dist} dist
           touch $out
         '';
@@ -124,7 +139,7 @@
         # the commonest pixel of a bucket, or the mean of one that has no commonest pixel. Three
         # methods and no fourth — every colour here is one canonize.sh re-reads
         palette-is-annotated =
-          pkgs.runCommand "palette-is-annotated" { nativeBuildInputs = [ pkgs.jq ]; }
+          pkgs.runCommand "palette-is-annotated" { nativeBuildInputs = with pkgs; [ jq ]; }
             ''
               bad=$(jq -r '
                 [ to_entries[]
@@ -151,9 +166,9 @@
         scripts-lint =
           pkgs.runCommand "scripts-lint"
             {
-              nativeBuildInputs = [
-                pkgs.shellcheck
-                pkgs.shfmt
+              nativeBuildInputs = with pkgs; [
+                shellcheck
+                shfmt
               ];
             }
             ''
@@ -166,7 +181,7 @@
 
         # A scheme is only usable if every slot is filled, no colour is spent twice and the
         # background-to-foreground ramp really is one
-        base16-is-sane = pkgs.runCommand "base16-is-sane" { nativeBuildInputs = [ pkgs.jq ]; } ''
+        base16-is-sane = pkgs.runCommand "base16-is-sane" { nativeBuildInputs = with pkgs; [ jq ]; } ''
           jq -r '
             ([to_entries[] | select(.key != "meta" and .key != "base16") | .value | to_entries[]]
               | from_entries) as $c
@@ -208,13 +223,13 @@
 
       devShells = forAllSystems (pkgs: {
         default = pkgs.mkShell {
-          packages = [
-            pkgs.jq
-            pkgs.curl
-            pkgs.imagemagick
-            pkgs.gawk
-            pkgs.shellcheck
-            pkgs.shfmt
+          packages = with pkgs; [
+            jq
+            curl
+            imagemagick
+            gawk
+            shellcheck
+            shfmt
           ];
         };
       });
